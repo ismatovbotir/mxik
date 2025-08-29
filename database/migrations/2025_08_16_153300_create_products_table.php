@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->integer('status')->default(0);
             $table->string('product_id')->nullable();
-            $table->string('mxikNameUz')->nullable();
-            $table->string('mxikNameRu')->nullable();
-            $table->string('mxikNameLat')->nullable();
+            $table->text('mxikNameUz')->nullable();
+            $table->text('mxikNameRu')->nullable();
+            $table->text('mxikNameLat')->nullable();
             $table->integer('label')->default(0);
             $table->string('gtin')->nullable();
             $table->timestamps();

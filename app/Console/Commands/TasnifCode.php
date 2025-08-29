@@ -36,7 +36,7 @@ class TasnifCode extends Command
     {
         $page = Record::first();
         if ($page == null) {
-            Record::create(['page' => 0]);
+            $page = Record::create(['page' => 0]);
             $currentPage = 0;
         } else {
             $currentPage = $page->page + 1;
