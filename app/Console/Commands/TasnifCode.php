@@ -34,7 +34,7 @@ class TasnifCode extends Command
      */
     public function handle()
     {
-        $size = 500;
+        $size = 2000;
         $page = Record::first();
         if ($page == null) {
             $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
@@ -106,7 +106,14 @@ class TasnifCode extends Command
             );
             $this->info('Data upserted successfully.' . ($size * ($currentPage + 1)));
         } else {
-            $this->error("Request failed with status: {$response->status()}");
+            $this->telegramSend("Request failed with status: {$response->status()}");
         }
+    }
+    public function telegramSend($text = "hi")
+    {
+        Http::post('https://api.telegram.org/bot5246861020:AAHrvj1A_AJh7tesQxoos8dZtwUv06SnMkw/sendMessage', [
+            'chat_id' => 1936361,
+            'text' => $text,
+        ]);
     }
 }
