@@ -111,7 +111,7 @@ class TasnifCode extends Command
                         'record_total' => $size + $page->record_total
                     ]
                 );
-                $this->telegramSend('Data upserted successfully.' . ($size * ($currentPage + 1)));
+                $this->telegramSend('Data upserted successfully : ' . $page->record_total);
             } else {
                 $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
             }
