@@ -13,7 +13,7 @@ class TasnifGroup extends Command
      *
      * @var string
      */
-    protected $signature = 'tasnif-group';
+    protected $signature = 'tasnif:group';
 
     /**
      * The console command description.

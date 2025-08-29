@@ -62,10 +62,12 @@ class TasnifCode extends Command
                 //dd($item);
                 $item['createdAt'] = Carbon::parse($item['createdAt'])->toDateTimeString();
                 $item['updateAt'] = $item['updateAt'] ? Carbon::parse($item['updateAt'])->toDateTimeString() : $item['createdAt'];
+                $group = (int)substr($item['mxik'], 0, 3);
                 Product::updateOrCreate(
                     ['id' => $item['mxik']],
                     [
                         'id' => $item['mxik'],
+                        'group_id' => $group,
                         'status' => 0,
                         'product_id' => null,
                         'mxikNameUz' => $item['mxikNameUz'],
