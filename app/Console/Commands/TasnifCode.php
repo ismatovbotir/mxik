@@ -34,7 +34,7 @@ class TasnifCode extends Command
      */
     public function handle()
     {
-        $size = 11000000;
+        $size = 1000;
         $page = Record::first();
         if ($page == null) {
             $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
