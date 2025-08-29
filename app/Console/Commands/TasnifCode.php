@@ -101,7 +101,7 @@ class TasnifCode extends Command
                 [
                     'page' => $currentPage,
                     'total' => $jsonArr['recordTotal'],
-                    'record_total' => $size * ($currentPage + 1)
+                    'record_total' => $size + $page->record_total
                 ]
             );
             $this->info('Data upserted successfully.' . ($size * ($currentPage + 1)));
