@@ -4,23 +4,15 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use App\Models\Product; // Assuming you have a Product model
 
-use App\Models\Group; // Assuming you have a Group model
-use App\Models\GroupName; // Assuming you have a GroupName model
-use App\Models\Record;
-use App\Models\Unit;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Redis;
-
-class TasnifCode extends Command
+class TasnifUpdate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'tasnif:code';
+    protected $signature = 'app:tasnif-update';
 
     /**
      * The console command description.
@@ -49,15 +41,14 @@ class TasnifCode extends Command
             $size = $page->size;
         };
         //dd($currentPage);
-        $this->telegramSend('Starting TasnifCode command...');
+        $this->info('Starting TasnifCode command...');
         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=' . $size; // your static URL
         try {
             $response = Http::get($url);
 
             if ($response->successful()) {
+                //$this->info($response->body());
                 $jsonArr = json_decode($response->body(), true);
-
-                $this->telegramSend($jsonArr['code']);
 
                 foreach ($jsonArr["data"] as $item) {
                     //dd($item);
@@ -112,6 +103,9 @@ class TasnifCode extends Command
         } catch (\Exception $e) {
             $this->info($e->getMessage());
         }
+
+
+        $url = "integration-mxik/get/history/time123123";
     }
     public function telegramSend($text = "hi")
     {
