@@ -63,7 +63,7 @@ class TasnifCode extends Command
                 $unitArray = [];
                 // dd($item);
                 foreach ($item['packages'] as $unit) {
-                    $unitAray[] = [
+                    $unitArray[] = [
                         'id' => $unit['code'],
                         'product_id' => $unit['mxikCode'],
                         'nameUz' => $unit['nameUz'],
