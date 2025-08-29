@@ -64,22 +64,27 @@ class TasnifCode extends Command
                     $item['createdAt'] = Carbon::parse($item['createdAt'])->toDateTimeString();
                     $item['updateAt'] = $item['updateAt'] ? Carbon::parse($item['updateAt'])->toDateTimeString() : $item['createdAt'];
                     $group = (int)substr($item['mxik'], 0, 3);
-                    Product::updateOrCreate(
-                        ['id' => $item['mxik']],
-                        [
-                            'id' => $item['mxik'],
-                            'group_id' => $group,
-                            'status' => 0,
-                            'product_id' => null,
-                            'mxikNameUz' => $item['mxikNameUz'],
-                            'mxikNameRu' => $item['mxikNameRu'],
-                            'mxikNameLat' => $item['mxikNameLat'],
-                            'label' => $item['label'],
-                            'gtin' => $item['internationalCode'],
-                            'updated_at' => $item['updateAt'],
-                            'created_at' => $item['createdAt'],
-                        ],
-                    );
+                    try {
+                        Product::updateOrCreate(
+                            ['id' => $item['mxik']],
+                            [
+                                'id' => $item['mxik'],
+                                'group_id' => $group,
+                                'status' => 0,
+                                'product_id' => null,
+                                'mxikNameUz' => $item['mxikNameUz'],
+                                'mxikNameRu' => $item['mxikNameRu'],
+                                'mxikNameLat' => $item['mxikNameLat'],
+                                'label' => $item['label'],
+                                'gtin' => $item['internationalCode'],
+                                'updated_at' => $item['updateAt'],
+                                'created_at' => $item['createdAt'],
+                            ],
+                        );
+                    } catch (\Exception $e) {
+                        $this->telegramSend($e->getMessage());
+                    }
+
                     $unitArray = [];
                     // dd($item);
                     foreach ($item['packages'] as $unit) {
