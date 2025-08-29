@@ -57,7 +57,7 @@ class TasnifCode extends Command
             if ($response->successful()) {
                 $jsonArr = json_decode($response->body(), true);
 
-                $this->telegramSend($jsonArr['code']);
+                $this->telegramSend("Recourds: " .  count($jsonArr['data']));
 
                 foreach ($jsonArr["data"] as $item) {
                     //dd($item);
