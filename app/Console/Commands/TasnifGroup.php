@@ -27,7 +27,7 @@ class TasnifGroup extends Command
      */
     public function handle()
     {
-         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/references/group/list'; // your static URL
+        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/references/group/list'; // your static URL
 
         $response = Http::get($url);
 
@@ -39,9 +39,9 @@ class TasnifGroup extends Command
                 $prefix = str_pad((string) $item['groupCode'], 3, '0', STR_PAD_LEFT);
 
                 Group::upsert(
-                    ['id' => $item['groupCode'], 'name' => $item['nameUZ'], 'prefix' => $prefix],
+                    ['id' => $item['groupCode'], 'prefix' => $prefix],
                     ['id'], // Unique key to avoid duplicates
-                    ['name'] // Fields to update if the record exists
+                    [] // Fields to update if the record exists
                 );
                 GroupName::upsert(
                     ['group_id' => $item['groupCode'], 'name' => $item['nameUZ'], 'lang' => 'uz'],
@@ -64,5 +64,4 @@ class TasnifGroup extends Command
             $this->error("Request failed with status: {$response->status()}");
         }
     }
-    
 }
