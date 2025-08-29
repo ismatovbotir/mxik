@@ -14,8 +14,17 @@ class MainController extends Controller
      */
     public function index()
     {
-        $items = Product::count();
-        dd($items);
+        $items_count = Product::count();
+        $groups_count = Group::count();
+        $asl_count = Product::where('label', 1)->count();
+        $gtin_count = Product::where('gtin', '!=', null)->count();
+        $data = [
+            'items_count' => $items_count,
+            'groups_count' => $groups_count,
+            'asl_count' => $asl_count,
+            'gtin_count' => $gtin_count,
+        ];
+        dd($data);
         return view('welcome');
     }
 
