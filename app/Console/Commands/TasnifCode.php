@@ -73,7 +73,7 @@ class TasnifCode extends Command
                         'mxikNameUz' => $item['mxikNameUz'],
                         'mxikNameRu' => $item['mxikNameRu'],
                         'mxikNameLat' => $item['mxikNameLat'],
-                        'label' => 0,
+                        'label' => $item['label'],
                         'gtin' => $item['internationalCode'],
                         'updated_at' => $item['updateAt'],
                         'created_at' => $item['createdAt'],
