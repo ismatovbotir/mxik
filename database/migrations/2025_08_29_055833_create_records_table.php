@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('total')->default(0);
             $table->integer('size')->default(100);
             $table->integer('page')->default(0);
+            $table->integer('record_total')->default(0);
             $table->timestamps();
         });
     }

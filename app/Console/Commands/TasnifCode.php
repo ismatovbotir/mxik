@@ -39,6 +39,11 @@ class TasnifCode extends Command
             $page = Record::create(['page' => 0]);
             $currentPage = 0;
         } else {
+            //dd($page);
+            if ($page->total <= $page->record_total) {
+                $this->info('All records have been processed. Exiting command.');
+                return;
+            }
             $currentPage = $page->page + 1;
         };
         //dd($currentPage);
@@ -88,8 +93,14 @@ class TasnifCode extends Command
                     ['nameUz', 'nameRu', 'nameLat'] // Fields to update if the record exists
                 );
             };
-            $page->update(['page' => $currentPage]);
-            $this->info('Data upserted successfully.');
+            $page->update(
+                [
+                    'page' => $currentPage,
+                    'total' => $jsonArr['recordTotal'],
+                    'record_total' => 100 * ($currentPage + 1)
+                ]
+            );
+            $this->info('Data upserted successfully.' . (100 * ($currentPage + 1)));
         } else {
             $this->error("Request failed with status: {$response->status()}");
         }
