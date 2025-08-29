@@ -9,6 +9,7 @@ use App\Models\Product; // Assuming you have a Product model
 use App\Models\Group; // Assuming you have a Group model
 use App\Models\GroupName; // Assuming you have a GroupName model
 use App\Models\Unit;
+use Carbon\Carbon;
 
 class TasnifCode extends Command
 {
@@ -41,7 +42,11 @@ class TasnifCode extends Command
             $jsonArr = json_decode($response->body(), true);
 
             foreach ($jsonArr["data"] as $item) {
-                Product::upsert(
+
+                $item['createdAt'] = Carbon::parse($item['createdAt'])->toDateTimeString();
+                $item['updatedAt'] =$item['updatedAt']? Carbon::parse($item['updatedAt'])->toDateTimeString() : $item['createdAt'];
+                Product::updateOrCreate(
+                    ['id' => $item['mxik']],
                     [
                         'id' => $item['mxik'],
                         'status' => 0,
@@ -54,8 +59,6 @@ class TasnifCode extends Command
                         'updated_at' => $item['updatedAt'] ?? $item['createdAt'],
                         'created_at' => $item['createdAt'],
                     ],
-                    ['id'], // Unique key to avoid duplicates
-                    ['status', 'product_id', 'mxikNameUz', 'mxikNameRu', 'mxikNameLat', 'label', 'gtin', 'created_at', 'updated_at'] // Fields to update if the record exists
                 );
                 $unitArray = [];
                 // dd($item);
