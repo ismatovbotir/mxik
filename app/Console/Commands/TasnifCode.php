@@ -61,7 +61,7 @@ class TasnifCode extends Command
 
                 foreach ($jsonArr["data"] as $item) {
                     //dd($item);
-                    $this->telegramSend($item['createdAt']);
+                    $temp = $item['createdAt'];
                     $item['createdAt'] = Carbon::parse($item['createdAt'])->toDateTimeString();
                     $item['updateAt'] = $item['updateAt'] ? Carbon::parse($item['updateAt'])->toDateTimeString() : $item['createdAt'];
                     $group = (int)substr($item['mxik'], 0, 3);
@@ -116,7 +116,7 @@ class TasnifCode extends Command
                 $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
             }
         } catch (\Exception $e) {
-            $this->telegramSend($e->getMessage());
+            $this->telegramSend($temp . ' ' . $e->getMessage());
         }
     }
     public function telegramSend($text = "hi")
