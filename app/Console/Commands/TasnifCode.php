@@ -20,7 +20,7 @@ class TasnifCode extends Command
      *
      * @var string
      */
-    protected $signature = 'tasnif-code';
+    protected $signature = 'tasnif:code';
 
     /**
      * The console command description.
@@ -34,9 +34,10 @@ class TasnifCode extends Command
      */
     public function handle()
     {
+        $size = 500;
         $page = Record::first();
         if ($page == null) {
-            $page = Record::create(['page' => 0]);
+            $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
             $currentPage = 0;
         } else {
             //dd($page);
@@ -45,10 +46,11 @@ class TasnifCode extends Command
                 return;
             }
             $currentPage = $page->page + 1;
+            $size = $page->size;
         };
         //dd($currentPage);
         $this->info('Starting TasnifCode command...');
-        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=100'; // your static URL
+        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=' . $size; // your static URL
 
         $response = Http::get($url);
 
@@ -97,10 +99,10 @@ class TasnifCode extends Command
                 [
                     'page' => $currentPage,
                     'total' => $jsonArr['recordTotal'],
-                    'record_total' => 100 * ($currentPage + 1)
+                    'record_total' => $size * ($currentPage + 1)
                 ]
             );
-            $this->info('Data upserted successfully.' . (100 * ($currentPage + 1)));
+            $this->info('Data upserted successfully.' . ($size * ($currentPage + 1)));
         } else {
             $this->error("Request failed with status: {$response->status()}");
         }
