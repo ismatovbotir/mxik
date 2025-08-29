@@ -61,6 +61,7 @@ class TasnifCode extends Command
 
                 foreach ($jsonArr["data"] as $item) {
                     //dd($item);
+                    $this->telegramSend($item['createdAt']);
                     $item['createdAt'] = Carbon::parse($item['createdAt'])->toDateTimeString();
                     $item['updateAt'] = $item['updateAt'] ? Carbon::parse($item['updateAt'])->toDateTimeString() : $item['createdAt'];
                     $group = (int)substr($item['mxik'], 0, 3);
