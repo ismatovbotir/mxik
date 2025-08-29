@@ -25,7 +25,7 @@ class MainController extends Controller
             'gtin_count' => $gtin_count,
         ];
         dd($data);
-        return view('welcome');
+        return view('welcome', ['data' => $data]);
     }
 
     /**
