@@ -42,9 +42,9 @@ class TasnifCode extends Command
             $jsonArr = json_decode($response->body(), true);
 
             foreach ($jsonArr["data"] as $item) {
-
+                //dd($item);
                 $item['createdAt'] = Carbon::parse($item['createdAt'])->toDateTimeString();
-                $item['updatedAt'] =$item['updatedAt']? Carbon::parse($item['updatedAt'])->toDateTimeString() : $item['createdAt'];
+                $item['updateAt'] = $item['updateAt'] ? Carbon::parse($item['updateAt'])->toDateTimeString() : $item['createdAt'];
                 Product::updateOrCreate(
                     ['id' => $item['mxik']],
                     [
@@ -56,7 +56,7 @@ class TasnifCode extends Command
                         'mxikNameLat' => $item['mxikNameLat'],
                         'label' => 0,
                         'gtin' => $item['internationalCode'],
-                        'updated_at' => $item['updatedAt'] ?? $item['createdAt'],
+                        'updated_at' => $item['updateAt'],
                         'created_at' => $item['createdAt'],
                     ],
                 );
