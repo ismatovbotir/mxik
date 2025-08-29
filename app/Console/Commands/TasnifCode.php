@@ -83,7 +83,7 @@ class TasnifCode extends Command
                             ],
                         );
                     } catch (\Exception $e) {
-                        $this->telegramSend($e->getMessage());
+                        $this->telegramSend($e->getMessage() . typeOf($temp));
                     }
 
                     $unitArray = [];
