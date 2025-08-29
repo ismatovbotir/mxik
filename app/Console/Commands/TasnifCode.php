@@ -110,7 +110,7 @@ class TasnifCode extends Command
                 $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
             }
         } catch (\Exception $e) {
-            $this->info($e->getMessage());
+            $this->telegramSend($e->getMessage());
         }
     }
     public function telegramSend($text = "hi")
