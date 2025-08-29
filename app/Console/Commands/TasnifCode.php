@@ -108,7 +108,7 @@ class TasnifCode extends Command
                     [
                         'page' => $currentPage,
                         'total' => $jsonArr['recordTotal'],
-                        'record_total' => $size + $page->record_total
+                        'record_total' => count($jsonArr["data"]) + $page->record_total
                     ]
                 );
                 $this->telegramSend('Data upserted successfully : ' . $page->record_total);
