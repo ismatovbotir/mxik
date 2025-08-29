@@ -8,8 +8,10 @@ use App\Models\Product; // Assuming you have a Product model
 
 use App\Models\Group; // Assuming you have a Group model
 use App\Models\GroupName; // Assuming you have a GroupName model
+use App\Models\Record;
 use App\Models\Unit;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redis;
 
 class TasnifCode extends Command
 {
@@ -32,8 +34,16 @@ class TasnifCode extends Command
      */
     public function handle()
     {
+        $page = Record::first();
+        if ($page == null) {
+            Record::create(['page' => 0]);
+            $currentPage = 0;
+        } else {
+            $currentPage = $page->page + 1;
+        };
+        //dd($currentPage);
         $this->info('Starting TasnifCode command...');
-        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=0&size=100'; // your static URL
+        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=100'; // your static URL
 
         $response = Http::get($url);
 
@@ -78,7 +88,7 @@ class TasnifCode extends Command
                     ['nameUz', 'nameRu', 'nameLat'] // Fields to update if the record exists
                 );
             };
-
+            $page->update(['page' => $currentPage]);
             $this->info('Data upserted successfully.');
         } else {
             $this->error("Request failed with status: {$response->status()}");
