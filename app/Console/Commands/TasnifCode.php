@@ -78,7 +78,7 @@ class TasnifCode extends Command
                                 //'mxikNameRu' => $item['mxikNameRu'],
                                 //'mxikNameLat' => $item['mxikNameLat'],
                                 'label' => $item['label'],
-                                'gtin' => $item['internationalCode'],
+                                'gtin' => strlen($item['internationalCode']) <= 14 ? $item['internationalCode'] : null,
                                 'updated_at' => $item['updateAt'],
                                 'created_at' => $item['createdAt'],
                             ],
