@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -28,20 +29,10 @@ class TasnifUpdate extends Command
     public function handle()
     {
         $size = 1;
-        //  $page = Record::first();
-        // if ($page == null) {
-        //    // $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
         $currentPage = 0;
-        // } else {
-        //     //dd($page);
-        //     if ($page->total <= $page->record_total) {
-        //         $this->info('All records have been processed. Exiting command.');
-        //         return;
-        //     }
-        //     $currentPage = $page->page + 1;
-        //     $size = $page->size;
-        // };
-        //dd($currentPage);
+
+        $last = Product::latest()->first();
+        dd($last);
         $this->info('Starting TasnifCode command...');
         $date = Carbon::now();
         $startOfToday = Carbon::now()->startOfDay()->timestamp * 1000;

@@ -84,7 +84,8 @@ class TasnifCode extends Command
                             ],
                         );
                     } catch (\Exception $e) {
-                        $this->telegramSend(gettype($temp));
+                        $this->telegramSend($e->getMessage());
+                        $this->info($e->getMessage());
                     }
 
                     $unitArray = [];
@@ -117,7 +118,7 @@ class TasnifCode extends Command
                 $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
             }
         } catch (\Exception $e) {
-            $this->telegramSend($temp . ' ' . $e->getMessage());
+            $this->telegramSend($e->getMessage());
             $this->info($e->getMessage());
         }
     }
