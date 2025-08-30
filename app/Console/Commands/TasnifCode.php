@@ -49,6 +49,7 @@ class TasnifCode extends Command
             $size = $page->size;
         };
         //dd($currentPage);
+        $this->info('Starting TasnifCode command...');
         $this->telegramSend('Starting TasnifCode command...');
         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=' . $size; // your static URL
         try {

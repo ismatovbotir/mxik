@@ -20,7 +20,7 @@ return new class extends Migration
             //$table->text('mxikNameRu')->nullable();
             //$table->text('mxikNameLat')->nullable();
             $table->integer('label')->default(0);
-            $table->string('gtin', 14)->nullable();
+            $table->string('gtin', 14)->nullable()->index();
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');
             //$table->id(); --- IGNORE ---
