@@ -43,6 +43,7 @@ class TasnifUpdate extends Command
         // };
         //dd($currentPage);
         $this->info('Starting TasnifCode command...');
+        $date = Carbon::now();
         $startOfToday = Carbon::now()->startOfDay()->timestamp * 1000;
         $endOfToday   = Carbon::now()->endOfDay()->timestamp * 1000;
         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/history/time?page=' . $currentPage . '&size=' . $size . '&lang=uz_cyrl&startDate=' . $startOfToday . '&endDate=' . $endOfToday; // your static URL
@@ -53,7 +54,7 @@ class TasnifUpdate extends Command
                 //$this->info($response->body());
                 $jsonArr = json_decode($response->body(), true);
                 //$jsonArr['data'] = [];
-                dd($jsonArr);
+                dd(Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000)->toDateTimeString());
 
                 $this->telegramSend('Data upserted successfully.' . ($size * ($currentPage + 1)));
             } else {
