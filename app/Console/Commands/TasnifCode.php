@@ -117,6 +117,7 @@ class TasnifCode extends Command
             }
         } catch (\Exception $e) {
             $this->telegramSend($temp . ' ' . $e->getMessage());
+            $this->info($e->getMessage());
         }
     }
     public function telegramSend($text = "hi")
