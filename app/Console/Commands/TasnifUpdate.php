@@ -28,35 +28,44 @@ class TasnifUpdate extends Command
      */
     public function handle()
     {
-        $size = 100;
-        $currentPage = 0;
+        $size = 5;
+        $currentPage = 2;
 
         $last = Product::latest()->first();
-        //dd($last);
+        $lastDate = $last['updated_at'];
         $this->info('Starting TasnifCode command...');
         $date = Carbon::now();
-        $startOfToday = Carbon::now()->subDays(1)->startOfDay()->timestamp * 1000;
-        $endOfToday   = Carbon::now()->subDays(1)->endOfDay()->timestamp * 1000;
-        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/history/time?page=' . $currentPage . '&size=' . $size . '&lang=uz_cyrl&startDate=' . $startOfToday . '&endDate=' . $endOfToday; // your static URL
+        $startOfToday = $lastDate->timestamp * 1000;
+        $endOfToday   = $lastDate->addDays(1)->timestamp * 1000;
+
+        //$endOfToday   = Carbon::now()->subDays(1)->endOfDay()->timestamp * 1000;
+        //dd($startOfToday, $endOfToday);
+        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/history/time?page=' . $currentPage . '&size=' . $size . '&startDate=' . $startOfToday . '&endDate=' . $endOfToday; // your static URL
         try {
             $response = Http::get($url);
 
             if ($response->successful()) {
                 //$this->info($response->body());
                 $jsonArr = json_decode($response->body(), true);
-                dd($jsonArr);
-                dd(Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000)->toDateTimeString());
-
-                $this->telegramSend('Data upserted successfully.' . ($size * ($currentPage + 1)));
+                //dd($jsonArr);
+                //$newC = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000)->toDateTimeString();
+                //$newU = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000 + 2)->toDateTimeString();
+                foreach ($jsonArr["data"] as $item) {
+                    if ($item['status'] != "3") {
+                        $this->telegramSend($item['mxik'] . ' - ' . $item['status']);
+                    }
+                }
+                //dd($newC, $newU);
+                //$this->telegramSend('Data upserted successfully.' . ($size * ($currentPage + 1)));
             } else {
-                $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
+                // $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
             }
         } catch (\Exception $e) {
             $this->info($e->getMessage());
         }
 
 
-        $url = "integration-mxik/get/history/time123123";
+        //$url = "integration-mxik/get/history/time123123";
     }
     public function telegramSend($text = "hi")
     {
