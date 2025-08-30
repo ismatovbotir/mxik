@@ -73,7 +73,7 @@ class TasnifCode extends Command
                                 'group_id' => $group,
                                 'status' => 0,
                                 'product_id' => null,
-                                'mxikNameUz' => $item['mxikNameUz'],
+                                'name' => $item['mxikNameUz'],
                                 //'mxikNameRu' => $item['mxikNameRu'],
                                 //'mxikNameLat' => $item['mxikNameLat'],
                                 'label' => $item['label'],
@@ -92,7 +92,7 @@ class TasnifCode extends Command
                         $unitArray[] = [
                             'id' => $unit['code'],
                             'product_id' => $unit['mxikCode'],
-                            'nameUz' => $unit['nameUz'],
+                            'name' => $unit['nameUz'],
                             //'nameRu' => $unit['nameRu'],
                             //'nameLat' => $unit['nameLat'],
                             'packageType' => $unit['packageType'],
@@ -101,7 +101,7 @@ class TasnifCode extends Command
                     Unit::upsert(
                         $unitArray,
                         ['id'], // Unique key to avoid duplicates
-                        ['nameUz'] // Fields to update if the record exists
+                        ['name'] // Fields to update if the record exists
                     );
                 };
                 $page->update(
