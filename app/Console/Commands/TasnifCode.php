@@ -49,16 +49,19 @@ class TasnifCode extends Command
             $size = $page->size;
         };
         //dd($currentPage);
-        $this->info('Starting TasnifCode command...');
-        $this->telegramSend('Starting TasnifCode command...');
+
         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=' . $size; // your static URL
         try {
             $response = Http::get($url);
 
             if ($response->successful()) {
                 $jsonArr = json_decode($response->body(), true);
+                if (count($jsonArr['data']) == 0) {
+                    return;
+                };
+                $this->info('Starting TasnifCode command...');
+                $this->telegramSend('Starting TasnifCode command... : ' . count($jsonArr['data']));
 
-                $this->telegramSend("Recourds: " .  count($jsonArr['data']));
 
                 foreach ($jsonArr["data"] as $item) {
                     //dd($item);

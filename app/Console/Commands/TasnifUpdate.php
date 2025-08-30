@@ -28,16 +28,16 @@ class TasnifUpdate extends Command
      */
     public function handle()
     {
-        $size = 1;
+        $size = 100;
         $currentPage = 0;
 
         $last = Product::latest()->first();
-        dd($last);
+        //dd($last);
         $this->info('Starting TasnifCode command...');
         $date = Carbon::now();
-        $startOfToday = Carbon::now()->subDays(100)->startOfDay()->timestamp * 1000;
-        $endOfToday   = Carbon::now()->subDays(100)->endOfDay()->timestamp * 1000;
-        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/history/time?page=' . $currentPage . '&size=' . $size . '&status=2&lang=uz_cyrl&startDate=' . $startOfToday . '&endDate=' . $endOfToday; // your static URL
+        $startOfToday = Carbon::now()->subDays(1)->startOfDay()->timestamp * 1000;
+        $endOfToday   = Carbon::now()->subDays(1)->endOfDay()->timestamp * 1000;
+        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/history/time?page=' . $currentPage . '&size=' . $size . '&lang=uz_cyrl&startDate=' . $startOfToday . '&endDate=' . $endOfToday; // your static URL
         try {
             $response = Http::get($url);
 
