@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('group_id')->constrained();
             $table->integer('status')->default(0);
             $table->string('product_id')->nullable();
-            $table->text('mxikNameUz')->nullable();
+            $table->text('name')->nullable();
             //$table->text('mxikNameRu')->nullable();
             //$table->text('mxikNameLat')->nullable();
             $table->integer('label')->default(0);
-            $table->string('gtin')->nullable();
+            $table->string('gtin', 14)->nullable();
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');
             //$table->id(); --- IGNORE ---

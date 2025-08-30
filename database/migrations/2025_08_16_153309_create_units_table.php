@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('product_id');
             $table->integer('status')->default(0);
-            $table->string('nameUz')->nullable();
+            $table->string('name')->nullable();
             //$table->string('nameRu')->nullable();
             //$table->string('nameLat')->nullable();
             $table->string('packageType')->default('1');
