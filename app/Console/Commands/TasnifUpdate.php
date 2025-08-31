@@ -33,7 +33,7 @@ class TasnifUpdate extends Command
 
         $last = Product::latest()->first();
         $lastDate = $last['updated_at'];
-        $this->info('Starting TasnifCode command...');
+        $this->telegramSend($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
         $date = Carbon::now();
         $startOfToday = $lastDate->timestamp * 1000;
         $endOfToday   = $lastDate->addDays(1)->timestamp * 1000;
