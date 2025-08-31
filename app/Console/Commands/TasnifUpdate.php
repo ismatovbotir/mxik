@@ -32,6 +32,10 @@ class TasnifUpdate extends Command
         $currentPage = 2;
 
         $last = Product::latest()->first();
+        if ($last == null) {
+            $this->telegramSend('No products found. Exiting command.');
+            return;
+        }
         $lastDate = $last['updated_at'];
         $this->telegramSend($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
         $date = Carbon::now();
@@ -52,7 +56,7 @@ class TasnifUpdate extends Command
                 //$newU = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000 + 2)->toDateTimeString();
                 foreach ($jsonArr["data"] as $item) {
                     //if ($item['status'] != "3") {
-                        $this->telegramSend($item['mxik'] . ' - ' . $item['status']);
+                    $this->telegramSend($item['mxik'] . ' - ' . Carbon::createFromTimestamp($item['createdAt'] / 1000)->toDateTimeString() . ' - ' . $item['status']);
                     //}
                 }
                 //dd($newC, $newU);

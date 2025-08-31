@@ -20,9 +20,11 @@ return new class extends Migration
             //$table->text('mxikNameRu')->nullable();
             //$table->text('mxikNameLat')->nullable();
             $table->integer('label')->default(0);
-            $table->string('gtin', 20)->nullable()->index();
+            $table->string('gtin', 14)->nullable()->index();
+            $table->string('gtin_id')->nullable()->index();
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('gtin_id')->references('id')->on('gtins');
             //$table->id(); --- IGNORE ---
         });
     }

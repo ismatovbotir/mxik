@@ -34,14 +34,14 @@ class TasnifCode extends Command
      */
     public function handle()
     {
-        $size = 1000;
+        $size = 100;
         $page = Record::first();
         if ($page == null) {
             $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
             $currentPage = 0;
         } else {
             //dd($page);
-            if ($page->total <= $page->record_total) {
+            if ($page->total < $page->record_total) {
                 $this->info('All records have been processed. Exiting command.');
                 return;
             }
@@ -52,7 +52,7 @@ class TasnifCode extends Command
 
         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=' . $size; // your static URL
         try {
-            $response = Http::get($url);
+            $response = Http::timeout(60)->get($url);
 
             if ($response->successful()) {
                 $jsonArr = json_decode($response->body(), true);
@@ -70,6 +70,12 @@ class TasnifCode extends Command
                     $item['updateAt'] = $item['updateAt'] ? Carbon::parse($item['updateAt'])->toDateTimeString() : $item['createdAt'];
                     $group = (int)substr($item['mxik'], 0, 3);
                     try {
+                        $gtin_id = Null;
+                        $gtin = strlen($item['internationalCode']) > 14 ? Null : $item['internationalCode'];
+                        if ($gtin !== Null) {
+                            $gtin_id = substr($gtin, 0, 3);
+                            //$this->info($gtin_id);
+                        }
                         Product::updateOrCreate(
                             ['id' => $item['mxik']],
                             [
@@ -81,7 +87,8 @@ class TasnifCode extends Command
                                 //'mxikNameRu' => $item['mxikNameRu'],
                                 //'mxikNameLat' => $item['mxikNameLat'],
                                 'label' => $item['label'],
-                                'gtin' => $item['internationalCode'],
+                                'gtin' => $gtin,
+                                'gtin_id' => $gtin_id,
                                 'updated_at' => $item['updateAt'],
                                 'created_at' => $item['createdAt'],
                             ],
