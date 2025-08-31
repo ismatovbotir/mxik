@@ -37,7 +37,7 @@ class MainController extends Controller
                 'productsByCountry' => $productsByCountry,
             ];
         });
-        dd($data);
+        //dd($data);
         return view('welcome', ['data' => $data]);
     }
 
