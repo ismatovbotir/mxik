@@ -5,7 +5,7 @@
   <title>Dashboard Cards</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<body >
 
 
 <div class="container py-4">
@@ -65,7 +65,7 @@
                             <tbody>
                                 @forelse ($data['productsByCountry']['data'] as $item)
                                     <tr>
-                                        <td>{{ $item['nameEn'] ?? 'Unknown' }}</td>
+                                        <td>{{ $item['nameEn'] ?? 'Unknown' }} ({{$item['id']}})</td>
                                         <td class="text-end">{{ $item['total'] }}</td>
                                     </tr>
                                 @empty
