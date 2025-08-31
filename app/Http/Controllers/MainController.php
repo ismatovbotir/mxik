@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Group;
-
+use Illuminate\Support\Facades\Cache;
 
 class MainController extends Controller
 {
@@ -14,16 +14,14 @@ class MainController extends Controller
      */
     public function index()
     {
-        $items_count = Product::count();
-        $groups_count = Group::count();
-        $asl_count = Product::where('label', 1)->count();
-        $gtin_count = Product::where('gtin', '!=', null)->count();
-        $data = [
-            'items_count' => $items_count,
-            'groups_count' => $groups_count,
-            'asl_count' => $asl_count,
-            'gtin_count' => $gtin_count,
-        ];
+        $data = Cache::remember('dashboard_counts', 300, function () {
+            return [
+                'items_count'  => Product::count(),
+                'groups_count' => Group::count(),
+                'asl_count'    => Product::where('label', 1)->count(),
+                'gtin_count'   => Product::whereNotNull('gtin')->count(),
+            ];
+        });
         //dd($data);
         return view('welcome', ['data' => $data]);
     }
