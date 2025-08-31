@@ -15,17 +15,17 @@ class MainController extends Controller
      */
     public function index()
     {
-        $productsByCountry = Product::whereNotNull('gtin_id')
-            ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
-            ->join('groups', 'products.group_id', '=', 'groups.id')
-            ->select('gtins.nameEn', 'gtins.id', DB::raw('COUNT(products.id) as total'))
-            ->groupBy('gtins.nameEn', 'gtins.id')
-            ->orderByDesc('total')
-            ->paginate(20);
-        dd($productsByCountry);
+
+        //dd($productsByCountry);
 
         $data = Cache::remember('dashboard_counts', 300, function () {
-
+            $productsByCountry = Product::whereNotNull('gtin_id')
+                ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
+                ->join('groups', 'products.group_id', '=', 'groups.id')
+                ->select('gtins.nameEn', 'gtins.id', DB::raw('COUNT(products.id) as total'))
+                ->groupBy('gtins.nameEn', 'gtins.id')
+                ->orderByDesc('total')
+                ->paginate(20)->toArray();
 
 
 
@@ -34,9 +34,10 @@ class MainController extends Controller
                 'groups_count' => Group::count(),
                 'asl_count'    => Product::where('label', 1)->count(),
                 'gtin_count'   => Product::whereNotNull('gtin')->count(),
+                'productsByCountry' => $productsByCountry,
             ];
         });
-        //dd($data);
+        dd($data);
         return view('welcome', ['data' => $data]);
     }
 
