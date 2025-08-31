@@ -7,57 +7,133 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl p-6">
-    
-    <!-- Card 1 -->
-    <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
-      <div class="flex items-center justify-between">
-        <span class="text-gray-500 text-sm">Jami Mahsulotlar:</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M3 7l9-4 9 4-9 4-9-4zm0 4l9 4 9-4M3 15l9 4 9-4"/>
-        </svg>
-      </div>
-      <div class="mt-4 text-3xl font-bold text-gray-800">{{number_format($data['items_count'],0,'.',' ')}}</div>
+
+<div class="container py-4">
+
+    {{-- 🔢 Top Dashboard Badges --}}
+    <div class="row row-cols-2 row-cols-md-4 g-3 mb-4">
+        <div class="col">
+            <div class="card text-white bg-primary h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h6 class="card-title mb-1">Total Products</h6>
+                    <h4 class="mb-0">{{ $data->items_count }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-success h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h6 class="card-title mb-1">Unique Countries</h6>
+                    <h4 class="mb-0">{{ $data->groups_count }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-warning h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h6 class="card-title mb-1">GTIN Count</h6>
+                    <h4 class="mb-0">{{ $data->gtin_count }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-danger h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h6 class="card-title mb-1">Asl Belgi</h6>
+                    <h4 class="mb-0">{{ $data->asl_count }}</h4>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Card 2 -->
-    <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
-      <div class="flex items-center justify-between">
-        <span class="text-gray-500 text-sm">Jami Guruhlar</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.33 0-10 1.67-10 5v1h20v-1c0-3.33-6.67-5-10-5z"/>
-        </svg>
-      </div>
-      <div class="mt-4 text-3xl font-bold text-gray-800">{{number_format($data['groups_count'],0,'.',' ')}}</div>
+    {{-- 🌍 Country Product Counts --}}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <strong>🌍 Product Count by Country</strong>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Country</th>
+                                    <th class="text-end">Product Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($productsByCountry->data as $item)
+                                    <tr>
+                                        <td>{{ $item->nameEn ?? 'Unknown' }}</td>
+                                        <td class="text-end">{{ $item->total }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="2" class="text-center">No country data found.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Card 3 -->
-    <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
-      <div class="flex items-center justify-between">
-        <span class="text-gray-500 text-sm">GTIN Mavjud Mahsulotlar</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/>
-        </svg>
-      </div>
-      <div class="mt-4 text-3xl font-bold text-gray-800">{{number_format($data['gtin_count'],0,'.',' ')}}</div>
-    </div>
+    {{-- 📋 GTIN + Group Product Table 
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <strong>📋 Product Count by GTIN and Group</strong>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle text-center mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>GTIN Name</th>
+                                    <th>Group Name</th>
+                                    <th>Total Products</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($productsByGtinAndGroup as $index => $item)
+                                    <tr>
+                                        <td>{{ $productsByGtinAndGroup->firstItem() + $index }}</td>
+                                        <td>{{ $item->gtin_name }}</td>
+                                        <td>{{ $item->group_name }}</td>
+                                        <td>{{ $item->total }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">No data found.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
 
-    <!-- Card 4 -->
-    <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
-      <div class="flex items-center justify-between">
-        <span class="text-gray-500 text-sm">Asl Belgi Mahsulotlar</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
-          5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 
-          4.5 2.09C13.09 3.81 14.76 3 16.5 
-          3 19.58 3 22 5.42 22 8.5c0 
-          3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-      </div>
-      <div class="mt-4 text-3xl font-bold text-gray-800">{{number_format($data['asl_count'],0,'.',' ')}}</div>
+                
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $productsByGtinAndGroup->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    --}}
+    {{-- 📎 Footer --}}
+    <footer class="mt-5 text-center text-muted small">
+        <hr>
+        <p>&copy; {{ now()->year }} YourCompany. All rights reserved.</p>
+    </footer>
 
-  </div>
+</div>
+@endsection
+
 
 </body>
 </html>
