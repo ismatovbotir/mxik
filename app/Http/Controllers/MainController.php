@@ -18,7 +18,7 @@ class MainController extends Controller
         $productsByCountry = Product::whereNotNull('gtin_id')
             ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
             ->select('gtins.nameEn', 'gtins.id', DB::raw('COUNT(products.id) as total'))
-            ->groupBy('gtins.nameEn')
+            ->groupBy('gtins.nameEn', 'gtins.id')
             ->orderByDesc('total')
             ->get();
         dd($productsByCountry);
