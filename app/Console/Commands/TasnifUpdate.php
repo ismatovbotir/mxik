@@ -51,9 +51,9 @@ class TasnifUpdate extends Command
                 //$newC = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000)->toDateTimeString();
                 //$newU = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000 + 2)->toDateTimeString();
                 foreach ($jsonArr["data"] as $item) {
-                    if ($item['status'] != "3") {
+                    //if ($item['status'] != "3") {
                         $this->telegramSend($item['mxik'] . ' - ' . $item['status']);
-                    }
+                    //}
                 }
                 //dd($newC, $newU);
                 //$this->telegramSend('Data upserted successfully.' . ($size * ($currentPage + 1)));
