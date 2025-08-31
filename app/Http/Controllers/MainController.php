@@ -15,13 +15,19 @@ class MainController extends Controller
      */
     public function index()
     {
-        $productsByCountry = Product::whereNotNull('gtin_id')
+        $products = Product::whereNotNull('gtin_id')
             ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
-            ->select('gtins.nameEn', 'gtins.id', DB::raw('COUNT(products.id) as total'))
-            ->groupBy('gtins.nameEn', 'gtins.id')
+            ->join('groups', 'products.group_id', '=', 'groups.id')
+            ->select(
+                'gtins.nameEn as gtin_name',
+                'gtins.id as gtin_id',
+                'groups.name as group_name',
+                DB::raw('COUNT(products.id) as total')
+            )
+            ->groupBy('gtins.nameEn', 'gtins.id', 'groups.name')
             ->orderByDesc('total')
             ->paginate(20);
-        dd($productsByCountry);
+        dd($products);
 
         $data = Cache::remember('dashboard_counts', 300, function () {
 
