@@ -14,7 +14,14 @@ class MainController extends Controller
      */
     public function index()
     {
+        $tempData = Product::with('gtin')->paginate(10);
+        dd($tempData);
+
         $data = Cache::remember('dashboard_counts', 300, function () {
+
+
+
+
             return [
                 'items_count'  => Product::count(),
                 'groups_count' => Group::count(),
