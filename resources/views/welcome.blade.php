@@ -132,7 +132,7 @@
     </footer>
 
 </div>
-@endsection
+
 
 
 </body>
