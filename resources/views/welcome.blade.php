@@ -24,7 +24,7 @@
             <div class="card text-red bg-success h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Unique Countries</h6>
-                    <h4 class="mb-0">{{ $data['groups_count'] }}</h4>
+                    <h4 class="mb-0">{{ $data['groups_count'] }} </h4>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                             <tbody>
                                 @forelse ($data['productsByCountry']['data'] as $item)
                                     <tr>
-                                        <td>{{ $item['nameEn'] ?? 'Unknown' }} </td>
+                                        <td>{{ $item['nameEn'] ?? 'Unknown' }} ({{$item['id']}}) </td>
                                         <td class="text-end">{{ $item['total'] }}</td>
                                     </tr>
                                 @empty
