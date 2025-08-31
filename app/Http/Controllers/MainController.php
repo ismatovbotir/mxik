@@ -20,7 +20,7 @@ class MainController extends Controller
             ->select('gtins.nameEn', 'gtins.id', DB::raw('COUNT(products.id) as total'))
             ->groupBy('gtins.nameEn', 'gtins.id')
             ->orderByDesc('total')
-            ->get();
+            ->paginate(20);
         dd($productsByCountry);
 
         $data = Cache::remember('dashboard_counts', 300, function () {
