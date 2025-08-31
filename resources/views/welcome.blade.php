@@ -63,7 +63,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($data['productsByCountry']['data'] as $item)
+                                @forelse ($data['productsByCountry'] as $item)
                                     <tr>
                                         <td>{{ $item['name'] ?? 'Unknown' }} ({{$item['id']}}) </td>
                                         <td class="text-end">{{ $item['total'] }}</td>
