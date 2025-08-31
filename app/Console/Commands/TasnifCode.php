@@ -34,7 +34,7 @@ class TasnifCode extends Command
      */
     public function handle()
     {
-        $size = 100;
+        $size = 1000;
         $page = Record::first();
         if ($page == null) {
             $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
@@ -52,7 +52,7 @@ class TasnifCode extends Command
 
         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=' . $size; // your static URL
         try {
-            $response = Http::timeout(60)->get($url);
+            $response = Http::timeout(30)->get($url);
 
             if ($response->successful()) {
                 $jsonArr = json_decode($response->body(), true);
