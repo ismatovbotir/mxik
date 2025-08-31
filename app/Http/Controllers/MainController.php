@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Group;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
@@ -14,8 +15,13 @@ class MainController extends Controller
      */
     public function index()
     {
-        $tempData = Product::whereNotNull('gtin_id')->with('gtin')->paginate(10);
-        dd($tempData);
+        $productsByCountry = Product::whereNotNull('gtin_id')
+            ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
+            ->select('gtins.country', DB::raw('COUNT(products.id) as total'))
+            ->groupBy('gtins.country')
+            ->orderByDesc('total')
+            ->get();
+        dd($productsByCountry);
 
         $data = Cache::remember('dashboard_counts', 300, function () {
 
