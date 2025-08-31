@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gtins', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string('nameUz');
-            $table->string('nameRu');
-            $table->string('nameEn');
+            $table->string('id', 3)->primary();
+            $table->string('nameUz')->nullable();
+            $table->string('nameRu')->nullable();
+            $table->string('nameEn')->nullable();
             $table->timestamps();
         });
     }
