@@ -16,7 +16,7 @@
             <div class="card text-white bg-primary h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Total Products</h6>
-                    <h4 class="mb-0">{{ $data->items_count }}</h4>
+                    <h4 class="mb-0">{{ $data['items_count'] }}</h4>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="card text-white bg-success h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Unique Countries</h6>
-                    <h4 class="mb-0">{{ $data->groups_count }}</h4>
+                    <h4 class="mb-0">{{ $data['groups_count'] }}</h4>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
             <div class="card text-white bg-warning h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">GTIN Count</h6>
-                    <h4 class="mb-0">{{ $data->gtin_count }}</h4>
+                    <h4 class="mb-0">{{ $data['gtin_count'] }}</h4>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div class="card text-white bg-danger h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Asl Belgi</h6>
-                    <h4 class="mb-0">{{ $data->asl_count }}</h4>
+                    <h4 class="mb-0">{{ $data['asl_count'] }}</h4>
                 </div>
             </div>
         </div>
@@ -63,10 +63,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($productsByCountry->data as $item)
+                                @forelse ($data['productsByCountry']['data'] as $item)
                                     <tr>
-                                        <td>{{ $item->nameEn ?? 'Unknown' }}</td>
-                                        <td class="text-end">{{ $item->total }}</td>
+                                        <td>{{ $item['nameEn'] ?? 'Unknown' }}</td>
+                                        <td class="text-end">{{ $item['total'] }}</td>
                                     </tr>
                                 @empty
                                     <tr>
