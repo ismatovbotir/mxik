@@ -125,7 +125,7 @@ class TasnifGtin extends Command
             ['id' => '373', 'nameEn' => 'Greece'],
             ['id' => '374', 'nameEn' => 'Greece'],
             ['id' => '375', 'nameEn' => null],
-            ['id' => '376', ?nameEn? =? ?Bulgaria?],
+            ['id' => '376', 'nameEn' => 'Bulgaria'],
             // ...
             ['id' => '379', 'nameEn' => 'France'],
 
