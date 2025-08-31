@@ -13,7 +13,7 @@
     {{-- 🔢 Top Dashboard Badges --}}
     <div class="row row-cols-2 row-cols-md-4 g-3 mb-4">
         <div class="col">
-            <div class="card text-white bg-primary h-100 shadow-sm">
+            <div class="card text-red bg-primary h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Total Products</h6>
                     <h4 class="mb-0">{{ $data['items_count'] }}</h4>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card text-white bg-success h-100 shadow-sm">
+            <div class="card text-red bg-success h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Unique Countries</h6>
                     <h4 class="mb-0">{{ $data['groups_count'] }}</h4>
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card text-white bg-warning h-100 shadow-sm">
+            <div class="card text-red bg-warning h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">GTIN Count</h6>
                     <h4 class="mb-0">{{ $data['gtin_count'] }}</h4>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card text-white bg-danger h-100 shadow-sm">
+            <div class="card text-red bg-danger h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Asl Belgi</h6>
                     <h4 class="mb-0">{{ $data['asl_count'] }}</h4>
