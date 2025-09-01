@@ -30,8 +30,8 @@ class TasnifDashboard extends Command
         $stats = DB::table('products')
             ->join('groups', 'products.group_id', '=', 'groups.id')
             ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
-            ->select('groups.name', 'gtins.nameEn', DB::raw('COUNT(products.id) as total'))
-            ->groupBy('groups.name', 'gtins.nameEn')
+            ->select('groups.id', 'groups.name', 'gtins.id', 'gtins.nameEn', DB::raw('COUNT(products.id) as total'))
+            ->groupBy('groups.id', 'groups.name', 'gtins.id', 'gtins.nameEn')
             ->get();
 
         dd($stats);
