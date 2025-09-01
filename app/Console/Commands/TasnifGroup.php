@@ -39,9 +39,9 @@ class TasnifGroup extends Command
                 $prefix = str_pad((string) $item['groupCode'], 3, '0', STR_PAD_LEFT);
 
                 Group::upsert(
-                    ['id' => $item['groupCode'], 'prefix' => $prefix],
+                    ['id' => $item['groupCode'], 'prefix' => $prefix, 'name' => $item['nameUZ']],
                     ['id'], // Unique key to avoid duplicates
-                    [] // Fields to update if the record exists
+                    ['name', 'prefix'] // Fields to update if the record exists
                 );
                 GroupName::upsert(
                     ['group_id' => $item['groupCode'], 'name' => $item['nameUZ'], 'lang' => 'uz'],

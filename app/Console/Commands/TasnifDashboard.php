@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Product;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class TasnifDashboard extends Command
 {
@@ -26,7 +27,13 @@ class TasnifDashboard extends Command
      */
     public function handle()
     {
-        $product = Product::with(['group', 'gtin'])->paginate(10)->toArray();
-        $this->info(json_encode($product));
+        $stats = DB::table('products')
+            ->join('groups', 'products.group_id', '=', 'groups.id')
+            ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
+            ->select('products.nameUz', 'gtins.id', DB::raw('COUNT(products.id) as total'))
+            ->groupBy('products.nameUz', 'gtins.id')
+            ->get();
+
+        dd($stats);
     }
 }
