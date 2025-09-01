@@ -679,6 +679,7 @@ class TasnifGtin extends Command
             ['id' => '768',  'nameEn' => 'Switzerland'],
             ['id' => '769',  'nameEn' => 'Switzerland'],
 
+
             ['id' => '770',  'nameEn' => null],
             ['id' => '771',  'nameEn' => null],
             ['id' => '772',  'nameEn' => null],

@@ -94,7 +94,7 @@ class TasnifCode extends Command
                             ],
                         );
                     } catch (\Exception $e) {
-                        $this->telegramSend($e->getMessage());
+                        $this->telegramSend($e->getMessage() . ' ' . strlen($gtin));
                         $this->info($e->getMessage());
                     }
 
