@@ -73,7 +73,7 @@ class TasnifCode extends Command
                         $gtin_id = Null;
                         $gtin = strlen($item['internationalCode']) > 14 ? Null : $item['internationalCode'];
                         if ($gtin !== Null) {
-                            $gtin_id = substr($gtin, 0, 3);
+                            $gtin_id = substr(trim($gtin), 0, 3);
                             //$this->info($gtin_id);
                         }
                         Product::updateOrCreate(
