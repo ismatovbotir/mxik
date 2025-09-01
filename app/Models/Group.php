@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\GroupName; // Assuming you have a GroupName model
-use App\Models\Product
+use App\Models\Product;
 
 class Group extends Model
 {
