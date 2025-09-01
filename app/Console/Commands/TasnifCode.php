@@ -123,7 +123,7 @@ class TasnifCode extends Command
                         'record_total' => count($jsonArr["data"]) + $page->record_total
                     ]
                 );
-                $this->telegramSend('Data upserted successfully : ' . $page->record_total);
+                $this->telegramSend('Data upserted successfully : ' . $page->total);
             } else {
                 $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
             }
