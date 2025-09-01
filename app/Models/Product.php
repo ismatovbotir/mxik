@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Gtin;
+use App\Models\Group;
+
 
 class Product extends Model
 {
@@ -13,5 +16,9 @@ class Product extends Model
     public function gtin()
     {
         return $this->belongsTo(Gtin::class);
+    }
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 }
