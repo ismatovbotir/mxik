@@ -56,7 +56,7 @@ class TasnifUpdate extends Command
                 //$newU = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000 + 2)->toDateTimeString();
                 foreach ($jsonArr["data"] as $item) {
                     //if ($item['status'] != "3") {
-                    $this->telegramSend($item['mxik'] . ' - ' . Carbon::createFromTimestamp($item['createdAt'] / 1000)->toDateTimeString() . ' - ' . $item['status']);
+                    $this->telegramSend(json_encode($item));
                     //}
                 }
                 //dd($newC, $newU);
