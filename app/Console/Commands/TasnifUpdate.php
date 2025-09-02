@@ -41,32 +41,11 @@ class TasnifUpdate extends Command
         $date = Carbon::now();
         $startOfToday = $lastDate->timestamp * 1000;
         $endOfToday   = $lastDate->addDays(1)->timestamp * 1000;
-
+        $totalRecords = $this->checkUpdates($size, $currentPage, $startOfToday, $endOfToday);
+        $this->info($totalRecords['totalRecords']);
         //$endOfToday   = Carbon::now()->subDays(1)->endOfDay()->timestamp * 1000;
         //dd($startOfToday, $endOfToday);
-        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/history/time?page=' . $currentPage . '&size=' . $size . '&startDate=' . $startOfToday . '&endDate=' . $endOfToday; // your static URL
-        try {
-            $response = Http::get($url);
 
-            if ($response->successful()) {
-                //$this->info($response->body());
-                $jsonArr = json_decode($response->body(), true);
-                dd($jsonArr['recordTotal']);
-                //$newC = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000)->toDateTimeString();
-                //$newU = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000 + 2)->toDateTimeString();
-                foreach ($jsonArr["data"] as $item) {
-                    //if ($item['status'] != "3") {
-                    $this->telegramSend(json_encode($item));
-                    //}
-                }
-                //dd($newC, $newU);
-                //$this->telegramSend('Data upserted successfully.' . ($size * ($currentPage + 1)));
-            } else {
-                // $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
-            }
-        } catch (\Exception $e) {
-            $this->info($e->getMessage());
-        }
 
 
         //$url = "integration-mxik/get/history/time123123";
@@ -77,5 +56,32 @@ class TasnifUpdate extends Command
             'chat_id' => 1936361,
             'text' => $text,
         ]);
+    }
+    public function checkUpdates($size = 1, $currentPage = 0, $startOfToday, $endOfToday)
+    {
+        $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/history/time?page=' . $currentPage . '&size=' . $size . '&startDate=' . $startOfToday . '&endDate=' . $endOfToday; // your static URL
+        try {
+            $response = Http::get($url);
+
+            if ($response->successful()) {
+                //$this->info($response->body());
+                $jsonArr = json_decode($response->body(), true);
+                return [
+                    'status' => 'success',
+                    'data' => $jsonArr,
+                ];
+            } else {
+                return [
+                    'status' => 'error',
+                    'message' => "Request failed with status: {$response->status()} : {{$response->body()}}",
+                ];
+            }
+        } catch (\Exception $e) {
+            $res = [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+        return $res;
     }
 }
