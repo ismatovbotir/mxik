@@ -28,7 +28,7 @@ class TasnifUpdate extends Command
      */
     public function handle()
     {
-        $size = 100;
+        $size = 1;
         $currentPage = 0;
 
         $last = Product::latest()->first();
@@ -49,7 +49,7 @@ class TasnifUpdate extends Command
             $response = Http::get($url);
 
             if ($response->successful()) {
-                //$this->info($response->body());
+                $this->info($response->body());
                 $jsonArr = json_decode($response->body(), true);
                 //dd($jsonArr);
                 //$newC = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000)->toDateTimeString();
