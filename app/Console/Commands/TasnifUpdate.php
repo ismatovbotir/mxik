@@ -49,9 +49,9 @@ class TasnifUpdate extends Command
             $response = Http::get($url);
 
             if ($response->successful()) {
-                $this->info($response->body());
+                //$this->info($response->body());
                 $jsonArr = json_decode($response->body(), true);
-                //dd($jsonArr);
+                dd($jsonArr['recordTotal']);
                 //$newC = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000)->toDateTimeString();
                 //$newU = Carbon::createFromTimestamp($jsonArr['data'][0]['createdAt'] / 1000 + 2)->toDateTimeString();
                 foreach ($jsonArr["data"] as $item) {
