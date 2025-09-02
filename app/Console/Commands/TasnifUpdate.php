@@ -28,8 +28,8 @@ class TasnifUpdate extends Command
      */
     public function handle()
     {
-        $size = 5;
-        $currentPage = 2;
+        $size = 100;
+        $currentPage = 0;
 
         $last = Product::latest()->first();
         if ($last == null) {
