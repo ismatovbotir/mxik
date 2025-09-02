@@ -38,11 +38,11 @@ class TasnifUpdate extends Command
         }
         $lastDate = $last['updated_at'];
         $this->telegramSend($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
-        $date = Carbon::now();
+        //$date = Carbon::now();
         $startOfToday = $lastDate->timestamp * 1000;
         $endOfToday   = $lastDate->addDays(1)->timestamp * 1000;
         $totalRecords = $this->checkUpdates($size, $currentPage, $startOfToday, $endOfToday);
-        $this->info($totalRecords['totalRecords']);
+        $this->info($totalRecords['data']);
         //$endOfToday   = Carbon::now()->subDays(1)->endOfDay()->timestamp * 1000;
         //dd($startOfToday, $endOfToday);
 
@@ -68,7 +68,7 @@ class TasnifUpdate extends Command
                 $jsonArr = json_decode($response->body(), true);
                 return [
                     'status' => 'success',
-                    'data' => $jsonArr,
+                    'data' => $jsonArr['recordTotal'],
                 ];
             } else {
                 return [
