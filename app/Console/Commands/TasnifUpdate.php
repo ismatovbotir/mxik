@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Product;
+use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -28,23 +29,44 @@ class TasnifUpdate extends Command
      */
     public function handle()
     {
-        $size = 1;
-        $currentPage = 0;
+        $size = 10;
+
 
         $last = Product::latest()->first();
+
         if ($last == null) {
             $this->telegramSend('No products found. Exiting command.');
             return;
         }
         $lastDate = $last['updated_at'];
-        $this->telegramSend($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
+        //$this->info($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
         //$date = Carbon::now();
         $startOfToday = $lastDate->timestamp * 1000;
-        $endOfToday   = $lastDate->addDays(1)->timestamp * 1000;
-        $totalRecords = $this->checkUpdates($size, $currentPage, $startOfToday, $endOfToday);
-        $this->info($totalRecords['data']);
-        //$endOfToday   = Carbon::now()->subDays(1)->endOfDay()->timestamp * 1000;
-        //dd($startOfToday, $endOfToday);
+        $endOfToday   = $lastDate->addDays(2)->timestamp * 1000;
+
+        $this->telegramSend(Carbon::createFromTimestamp($startOfToday / 1000) . ' - ' . Carbon::createFromTimestamp($endOfToday / 1000));
+        //dd('done');
+        $totalRecords = $this->checkUpdates(1, 0, $startOfToday, $endOfToday);
+        //dd($totalRecords);
+        if ($totalRecords['status'] == 'error') {
+            $this->telegramSend($totalRecords['message']);
+            return;
+        }
+        $totalRecord = $totalRecords['data']['recordTotal'];
+        //$this->telegramSend($totalRecord);
+        //$this->info('Total records to process: ' . ceil($totalRecord  / $size));
+        for ($i = 0; $i < ceil($totalRecord / $size); $i++) {
+            //$this->info('Processing page ' . ($i) . ' of ' . floor($totalRecord / $size));
+            $newRecords = $this->checkUpdates($size, $i, $startOfToday, $endOfToday);
+            if ($newRecords['status'] == 'error') {
+                $this->telegramSend($newRecords['message']);
+                continue;
+            }
+            $data = $newRecords['data']['data'];
+            foreach ($data as $item) {
+                $this->createItem($item);
+            }
+        }
 
 
 
@@ -68,7 +90,7 @@ class TasnifUpdate extends Command
                 $jsonArr = json_decode($response->body(), true);
                 return [
                     'status' => 'success',
-                    'data' => $jsonArr['recordTotal'],
+                    'data' => $jsonArr,
                 ];
             } else {
                 return [
@@ -83,5 +105,60 @@ class TasnifUpdate extends Command
             ];
         }
         return $res;
+    }
+    public function createItem($item)
+    {
+        if ($item['status'] == '3') {
+            $createdAt  = Carbon::createFromTimestamp($item['createdAt'] / 1000);
+            $updatedAt = Carbon::createFromTimestamp(($item['createdAt'] / 1000) + 2); //$this->info($createdAt);
+            // $this->telegramSend($createdAt, $updatedAt);
+            $group = (int)substr($item['mxik'], 0, 3);
+            try {
+                $gtin_id = Null;
+                $gtin = strlen($item['internationalCode']) > 14 ? Null : $item['internationalCode'];
+                if ($gtin !== Null) {
+                    $gtin_id = substr(trim($gtin), 0, 3);
+                    //$this->info($gtin_id);
+                }
+                Product::updateOrCreate(
+                    ['id' => $item['mxik']],
+                    [
+                        'id' => $item['mxik'],
+                        'group_id' => $group,
+                        'status' => 3,
+                        'product_id' => null,
+                        'name' => $item['name'],
+                        //'mxikNameRu' => $item['mxikNameRu'],
+                        //'mxikNameLat' => $item['mxikNameLat'],
+                        'label' => $item['label'],
+                        'gtin' => $gtin,
+                        'gtin_id' => $gtin_id,
+                        'updated_at' => $updatedAt,
+                        'created_at' => $createdAt,
+                    ],
+                );
+                $unitArray = [];
+                // dd($item);
+                foreach ($item['packages'] as $unit) {
+                    $unitArray[] = [
+                        'id' => $unit['code'],
+                        'product_id' => $unit['mxikCode'],
+                        'name' => $unit['nameUz'],
+                        //'nameRu' => $unit['nameRu'],
+                        //'nameLat' => $unit['nameLat'],
+                        'packageType' => $unit['packageType'],
+                    ];
+                }
+                Unit::upsert(
+                    $unitArray,
+                    ['id'], // Unique key to avoid duplicates
+                    ['name'] // Fields to update if the record exists
+                );
+                //$this->info('Product ' . $item['mxik'] . ' created');
+            } catch (\Exception $e) {
+                $this->telegramSend($e->getMessage() . ' ' . strlen($gtin));
+                $this->info($e->getMessage());
+            }
+        }
     }
 }
