@@ -56,17 +56,18 @@ class TasnifCode extends Command
 
             if ($response->successful()) {
                 $jsonArr = json_decode($response->body(), true);
-                if ($jsonArr['record_total'] > $page->record_total) {
+                // dd($jsonArr);
+                if ($jsonArr['recordTotal'] > $page->record_total) {
                     $page->update([
                         'page' => 0,
                         'total' => 0,
                         'size' => $size,
-                        'record_total' => $jsonArr['record_total']
+                        'record_total' => $jsonArr['recordTotal']
                     ]);
                     return;
                 };
-
-                if ($jsonArr['record_total'] == $page->total) {
+                //dd($jsonArr);
+                if ($jsonArr['recordTotal'] == $page->total) {
 
                     return;
                 };
@@ -123,12 +124,12 @@ class TasnifCode extends Command
                     Unit::upsert(
                         $unitArray,
                         ['id'], // Unique key to avoid duplicates
-                        ['name', 'pruduct_id'] // Fields to update if the record exists
+                        ['name', 'product_id'] // Fields to update if the record exists
                     );
                 };
                 if (count($jsonArr['data']) != $size) {
 
-                    $this->telegramSend('Data upserted successfully : ' . $page->record_total + count($jsonArr['data']));
+                    $this->telegramSend('Data upserted successfully : ' . $page->record_total);
                     // $currentPage = 0;
                     // $record_total = 0;
                     // $total = 0;
