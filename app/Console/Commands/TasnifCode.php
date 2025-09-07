@@ -41,7 +41,7 @@ class TasnifCode extends Command
             $currentPage = 0;
         } else {
             //dd($page);
-            if ($page->total < $page->record_total) {
+            if ($page->total > $page->record_total) {
                 $this->info('All records have been processed. Exiting command.');
                 return;
             }
@@ -124,8 +124,8 @@ class TasnifCode extends Command
                     $record_total = 0;
                     $total = 0;
                 } else {
-                    $record_total = count($jsonArr["data"]) + $page->record_total;
-                    $total = $jsonArr['recordTotal'];
+                    $total = count($jsonArr["data"]) + $page->total;
+                    $record_total = $jsonArr['recordTotal'];
                 }
                 $page->update(
                     [
