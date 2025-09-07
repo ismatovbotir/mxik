@@ -60,7 +60,7 @@ class TasnifCode extends Command
                     return;
                 };
                 $this->info('Starting TasnifCode command...');
-                $this->telegramSend('Starting TasnifCode command... : ' . count($jsonArr['data']));
+                // $this->telegramSend('Starting TasnifCode command... : ' . count($jsonArr['data']));
 
 
                 foreach ($jsonArr["data"] as $item) {
