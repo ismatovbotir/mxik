@@ -117,7 +117,7 @@ class TasnifCode extends Command
                         ['name'] // Fields to update if the record exists
                     );
                 };
-                $currentPage = count($jsonArr['data']) == $size ? $currentPage = $page->total + 1 : $currentPage;
+                $currentPage = count($jsonArr['data']) == $size ? $currentPage = $currentPage + 1 : $currentPage;
                 $page->update(
                     [
                         'page' => $currentPage,
