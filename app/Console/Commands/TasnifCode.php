@@ -93,6 +93,7 @@ class TasnifCode extends Command
                                 'created_at' => $item['createdAt'],
                             ],
                         );
+                        $this->telegramSend($item['mxikNameUz']);
                     } catch (\Exception $e) {
                         $this->telegramSend($e->getMessage() . ' ' . strlen($gtin));
                         $this->info($e->getMessage());
@@ -116,6 +117,7 @@ class TasnifCode extends Command
                         ['name'] // Fields to update if the record exists
                     );
                 };
+                $currentPage = count($jsonArr['data']) == $size ? $currentPage = $page->total + 1 : $currentPage;
                 $page->update(
                     [
                         'page' => $currentPage,
