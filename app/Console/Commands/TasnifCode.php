@@ -126,6 +126,7 @@ class TasnifCode extends Command
                 } else {
                     $total = count($jsonArr["data"]) + $page->total;
                     $record_total = $jsonArr['recordTotal'];
+                    $currentPage = $currentPage + 1;
                 }
                 $page->update(
                     [
