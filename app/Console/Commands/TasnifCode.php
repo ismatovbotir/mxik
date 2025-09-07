@@ -93,7 +93,7 @@ class TasnifCode extends Command
                                 'created_at' => $item['createdAt'],
                             ],
                         );
-                        $this->telegramSend($item['mxikNameUz']);
+                        //$this->telegramSend($item['mxikNameUz']);
                     } catch (\Exception $e) {
                         $this->telegramSend($e->getMessage() . ' ' . strlen($gtin));
                         $this->info($e->getMessage());
