@@ -117,15 +117,23 @@ class TasnifCode extends Command
                         ['name'] // Fields to update if the record exists
                     );
                 };
-                $currentPage = count($jsonArr['data']) == $size ? $currentPage = $currentPage + 1 : $currentPage;
+                if (count($jsonArr['data']) != $size) {
+
+                    $this->telegramSend('Data upserted successfully : ' . $page->record_total + count($jsonArr['data']));
+                    $currentPage = 0;
+                    $record_total = 0;
+                    $total = 0;
+                } else {
+                    $record_total = count($jsonArr["data"]) + $page->record_total;
+                    $total = $jsonArr['recordTotal'];
+                }
                 $page->update(
                     [
                         'page' => $currentPage,
-                        'total' => $jsonArr['recordTotal'],
-                        'record_total' => count($jsonArr["data"]) + $page->record_total
+                        'total' => $total,
+                        'record_total' => $record_total
                     ]
                 );
-                $this->telegramSend('Data upserted successfully : ' . $page->record_total);
             } else {
                 $this->telegramSend("Request failed with status: {$response->status()} : {{$response->body()}}");
             }
