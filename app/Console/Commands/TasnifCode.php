@@ -56,11 +56,20 @@ class TasnifCode extends Command
 
             if ($response->successful()) {
                 $jsonArr = json_decode($response->body(), true);
-                if (count($jsonArr['data']) == 0) {
+                if ($jsonArr['record_total'] > $page->record_total) {
+                    $page->update([
+                        'page' => 0,
+                        'total' => 0,
+                        'size' => $size,
+                        'record_total' => $jsonArr['record_total']
+                    ]);
                     return;
                 };
-                $this->info('Starting TasnifCode command...');
-                // $this->telegramSend('Starting TasnifCode command... : ' . count($jsonArr['data']));
+
+                if ($jsonArr['record_total'] == $page->total) {
+
+                    return;
+                };
 
 
                 foreach ($jsonArr["data"] as $item) {
@@ -114,25 +123,25 @@ class TasnifCode extends Command
                     Unit::upsert(
                         $unitArray,
                         ['id'], // Unique key to avoid duplicates
-                        ['name'] // Fields to update if the record exists
+                        ['name', 'pruduct_id'] // Fields to update if the record exists
                     );
                 };
                 if (count($jsonArr['data']) != $size) {
 
                     $this->telegramSend('Data upserted successfully : ' . $page->record_total + count($jsonArr['data']));
-                    $currentPage = 0;
-                    $record_total = 0;
-                    $total = 0;
+                    // $currentPage = 0;
+                    // $record_total = 0;
+                    // $total = 0;
                 } else {
-                    $total = count($jsonArr["data"]) + $page->total;
-                    $record_total = $jsonArr['recordTotal'];
                     $currentPage = $currentPage + 1;
                 }
+                $total = count($jsonArr["data"]) + $page->total;
+                //$record_total = $jsonArr['recordTotal'];
                 $page->update(
                     [
                         'page' => $currentPage,
-                        'total' => $total,
-                        'record_total' => $record_total
+                        'total' => $total
+                        //'record_total' => $record_total
                     ]
                 );
             } else {
