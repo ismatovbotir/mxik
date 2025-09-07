@@ -16,7 +16,7 @@
             <div class="card text-red bg-primary h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Total Products</h6>
-                    <h4 class="mb-0">{{ $data['items_count'] }}</h4>
+                    <h4 class="mb-0">{{ $data['main'][1]['value'] }}</h4>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="card text-red bg-success h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Unique Countries</h6>
-                    <h4 class="mb-0">{{ $data['groups_count'] }} </h4>
+                    <h4 class="mb-0">{{ $data['main'][2]['value'] }} </h4>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
             <div class="card text-red bg-warning h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">GTIN Count</h6>
-                    <h4 class="mb-0">{{ $data['gtin_count'] }}</h4>
+                    <h4 class="mb-0">{{ $data['main'][3]['value'] }}</h4>
                 </div>
             </div>
         </div>
@@ -40,47 +40,14 @@
             <div class="card text-red bg-danger h-100 shadow-sm">
                 <div class="card-body text-center">
                     <h6 class="card-title mb-1">Asl Belgi</h6>
-                    <h4 class="mb-0">{{ $data['asl_count'] }}</h4>
+                    <h4 class="mb-0">{{ $data['main'][0]['value'] }}</h4>
                 </div>
             </div>
         </div>
     </div>
 
     {{-- 🌍 Country Product Counts --}}
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-secondary text-white">
-                    <strong>🌍 Product Count by Country</strong>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Country</th>
-                                    <th class="text-end">Product Count</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($data['productsByCountry'] as $item)
-                                    <tr>
-                                        <td>{{ $item['nameEn'] ?? 'Unknown' }} ({{$item['id']}}) </td>
-                                        <td class="text-end">{{ $item['total'] }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="2" class="text-center">No country data found.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     {{-- 📋 GTIN + Group Product Table 
     <div class="row">
         <div class="col-12">

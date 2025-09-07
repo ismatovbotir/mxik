@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DashboardGroup;
+use App\Models\DashboardMain;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Group;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+
 
 class MainController extends Controller
 {
@@ -19,22 +22,15 @@ class MainController extends Controller
         //dd($productsByCountry);
 
         $data = Cache::remember('dashboard_counts', 300, function () {
-            $productsByCountry = Product::whereNotNull('gtin_id')
-                ->join('gtins', 'products.gtin_id', '=', 'gtins.id')
-                ->join('groups', 'products.group_id', '=', 'groups.id')
-                ->select('gtins.nameEn', 'gtins.id', DB::raw('COUNT(products.id) as total'))
-                ->groupBy('gtins.nameEn', 'gtins.id')
-                ->orderByDesc('total')
-                ->get()->toArray();
+            $group = DashboardGroup::all();
+            $main = DashboardMain::all();
 
 
 
             return [
-                'items_count'  => Product::count(),
-                'groups_count' => Group::count(),
-                'asl_count'    => Product::where('label', 1)->count(),
-                'gtin_count'   => Product::whereNotNull('gtin')->count(),
-                'productsByCountry' => $productsByCountry,
+                'main'  => $main,
+                'group' => $group,
+
             ];
         });
         //dd($data);
