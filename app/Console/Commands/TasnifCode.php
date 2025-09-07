@@ -45,7 +45,7 @@ class TasnifCode extends Command
                 $this->info('All records have been processed. Exiting command.');
                 return;
             }
-            $currentPage = $page->page + 1;
+            $currentPage = $page->page;
             $size = $page->size;
         };
         //dd($currentPage);
