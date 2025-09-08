@@ -109,10 +109,11 @@ class TasnifCode extends Command
                         $this->info($e->getMessage());
                     }
 
-                    $unitArray = [];
+                    //$unitArray = [];
                     // dd($item);
+                    Unit::where('product_id', $item['mxik'])->delete();
                     foreach ($item['packages'] as $unit) {
-                        $unitArray[] = [
+                        $unitObj = [
                             'id' => $unit['code'],
                             'product_id' => $unit['mxikCode'],
                             'name' => $unit['nameUz'],
@@ -120,12 +121,10 @@ class TasnifCode extends Command
                             //'nameLat' => $unit['nameLat'],
                             'packageType' => $unit['packageType'] ?? '1',
                         ];
+                        Unit::create(
+                            $unitObj
+                        );
                     }
-                    Unit::upsert(
-                        $unitArray,
-                        ['id'], // Unique key to avoid duplicates
-                        ['name', 'product_id'] // Fields to update if the record exists
-                    );
                 };
                 if (count($jsonArr['data']) != $size) {
 
