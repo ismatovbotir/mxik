@@ -118,7 +118,7 @@ class TasnifCode extends Command
                             'name' => $unit['nameUz'],
                             //'nameRu' => $unit['nameRu'],
                             //'nameLat' => $unit['nameLat'],
-                            'packageType' => $unit['packageType'],
+                            'packageType' => $unit['packageType'] ?? '1',
                         ];
                     }
                     Unit::upsert(
