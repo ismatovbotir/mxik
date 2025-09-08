@@ -50,22 +50,22 @@ class TasnifDashboard extends Command
                 'id' => 2,
                 'title' => 'Umumiy mahsulotlar soni',
                 'description' => 'Barcha mahsulotlar soni',
-                'value' => Product::count() / 1000,
-                'unit' => 'ming '
+                'value' => Product::count(),
+                'unit' => ''
             ],
             [
                 'id' => 3,
                 'title' => 'AslBelgi (Markirovka) mahsulotlar soni',
                 'description' => 'Nashrdagi mahsulotlar soni',
-                'value' => Product::where('label', 1)->count() / 1000,
-                'unit' => 'ming'
+                'value' => Product::where('label', 1)->count(),
+                'unit' => ''
             ],
             [
                 'id' => 4,
                 'title' => 'GTIN mavjud mahsulotlar soni',
                 'description' => 'Nashrdan o\'chirilgan mahsulotlar soni',
-                'value' => Product::whereNotNull('gtin')->count() / 1000,
-                'unit' => 'ming'
+                'value' => Product::whereNotNull('gtin')->count(),
+                'unit' => ''
             ]
 
         ];
