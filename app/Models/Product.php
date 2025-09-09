@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Gtin;
 use App\Models\Group;
+use App\Models\Unit;
 
 
 class Product extends Model
@@ -20,5 +21,9 @@ class Product extends Model
     public function group()
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');
+    }
+    public function units()
+    {
+        return $this->hasMany(Unit::class);
     }
 }
