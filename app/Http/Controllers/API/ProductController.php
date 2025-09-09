@@ -37,7 +37,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with('unit')->where('gtin', $id)->first();
+        $product = Product::with('units')->where('gtin', $id)->first();
         return response()->json($product);
     }
 
