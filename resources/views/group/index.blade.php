@@ -11,7 +11,7 @@
     @foreach($data as $group)
     <div class="row">
       <div class="col">
-        {{$group->name}} - {{$group->products_count}}
+        <a href="{{route('group.show',['group'=>$group->id])}}">{{$group->name}}</a> - {{$group->products_count}}
       </div>
     </div>
     @endforeach

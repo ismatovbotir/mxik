@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -38,7 +39,8 @@ class GroupController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data=Product::where('group_id',$id)->paginate(20);
+        dd($data);
     }
 
     /**
