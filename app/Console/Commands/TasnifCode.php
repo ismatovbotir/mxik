@@ -53,7 +53,10 @@ class TasnifCode extends Command
 
         $url = 'https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time?page=' . $currentPage . '&size=' . $size; // your static URL
         try {
-            $response = Http::timeout(30)->get($url);
+            $response = Http::withOptions([
+                'timeout'=>60,
+                'connect_timeout'=>30
+            ])->get($url);
 
             if ($response->successful()) {
                 $jsonArr = json_decode($response->body(), true);
