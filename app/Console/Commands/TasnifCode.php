@@ -34,13 +34,14 @@ class TasnifCode extends Command
      */
     public function handle()
     {
+        $this->info('start');
         $size = 1000;
         $page = Record::first();
         if ($page == null) {
             $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
             $currentPage = 0;
         } else {
-            //dd($page);
+            $this->info($page->total.' = '.$page->record_total);
             if ($page->total > $page->record_total) {
                 $this->info('All records have been processed. Exiting command.');
                 return;
