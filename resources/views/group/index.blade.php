@@ -14,6 +14,7 @@
         {{$group->name}} - {{$group->products_count}}
       </div>
     </div>
+    @endforeach
     
   </div>
 </body>
