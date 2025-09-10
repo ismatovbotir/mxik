@@ -13,7 +13,7 @@ class GroupController extends Controller
     public function index()
     {
         $data=Group::withCount('products')->get();
-        dd($data);
+        //dd($data);
         return view('group.index',['data'=>$data]);
     }
 
