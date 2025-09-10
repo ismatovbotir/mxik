@@ -66,7 +66,7 @@ class TasnifCode extends Command
                         'record_total' => $jsonArr['recordTotal']
                     ]);
                     $this->telegramSend('preparing base');
-                    Product::whereNot('status',0)->update(['status'=>0]);
+                    Product::where('status','!=',0)->update(['status'=>0]);
                     $this->telegramSend('starting update');
                     return;
                 };
