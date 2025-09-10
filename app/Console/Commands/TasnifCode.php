@@ -41,7 +41,7 @@ class TasnifCode extends Command
             $page = Record::create(['page' => 0, 'total' => 0, 'size' => $size, 'record_total' => 0]);
             $currentPage = 0;
         } else {
-            $this->info($page->total.' = '.$page->record_total);
+            $this->info($page->total . ' = ' . $page->record_total);
             if ($page->total > $page->record_total) {
                 $this->info('All records have been processed. Exiting command.');
                 return;
@@ -65,8 +65,8 @@ class TasnifCode extends Command
                         'size' => $size,
                         'record_total' => $jsonArr['recordTotal']
                     ]);
-                    $this->telegramSend('preparing base');
-                    Product::where('status','!=',0)->update(['status'=>0]);
+                    $this->telegramSend('preparing base:   ' . $jsonArr['recordTotal']);
+                    Product::where('status', '!=', 0)->update(['status' => 0]);
                     $this->telegramSend('starting update');
                     return;
                 };
@@ -100,7 +100,7 @@ class TasnifCode extends Command
                                 'name' => $item['mxikNameUz'],
                                 //'mxikNameRu' => $item['mxikNameRu'],
                                 //'mxikNameLat' => $item['mxikNameLat'],
-                                
+
                                 'label' => $item['label'],
                                 'gtin' => $gtin,
                                 'gtin_id' => $gtin_id,
