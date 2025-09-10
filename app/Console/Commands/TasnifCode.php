@@ -64,6 +64,9 @@ class TasnifCode extends Command
                         'size' => $size,
                         'record_total' => $jsonArr['recordTotal']
                     ]);
+                    $this->telegramSend('preparing base');
+                    Product::whereNot('status',0)->update(['status',0]);
+                    $this->telegramSend('starting update');
                     return;
                 };
                 //dd($jsonArr);
@@ -91,11 +94,12 @@ class TasnifCode extends Command
                             [
                                 'id' => $item['mxik'],
                                 'group_id' => $group,
-                                'status' => 0,
+                                'status' => 1,
                                 'product_id' => null,
                                 'name' => $item['mxikNameUz'],
                                 //'mxikNameRu' => $item['mxikNameRu'],
                                 //'mxikNameLat' => $item['mxikNameLat'],
+                                
                                 'label' => $item['label'],
                                 'gtin' => $gtin,
                                 'gtin_id' => $gtin_id,
