@@ -119,7 +119,7 @@ class TasnifCode extends Command
 
                     //$unitArray = [];
                     // dd($item);
-                    Unit::where('product_id', $item['mxik'])->delete();
+                    //Unit::where('product_id', $item['mxik'])->delete();
                     foreach ($item['packages'] as $unit) {
                         $unitObj = [
                             'id' => $unit['code'],
@@ -129,7 +129,9 @@ class TasnifCode extends Command
                             //'nameLat' => $unit['nameLat'],
                             'packageType' => $unit['packageType'] ?? '1',
                         ];
-                        Unit::create(
+                        Unit::updateOrCreate(
+                            ['id' => $unit['code']],    
+                            
                             $unitObj
                         );
                     }
