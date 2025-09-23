@@ -152,7 +152,7 @@ class TasnifUpdate extends Command
                 Unit::upsert(
                     $unitArray,
                     ['id'], // Unique key to avoid duplicates
-                    ['name'] // Fields to update if the record exists
+                    ['name', 'product_id', 'packageType'] // Fields to update if the record exists
                 );
                 //$this->info('Product ' . $item['mxik'] . ' created');
             } catch (\Exception $e) {
