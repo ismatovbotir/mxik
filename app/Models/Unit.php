@@ -9,9 +9,10 @@ class Unit extends Model
 {
     public $timestamps = false;
     public $guarded = [];
+    public $incrementing = false;
 
     public function product()
     {
-        return $this->belongsTo( Product::class);
+        return $this->belongsTo(Product::class);
     }
 }
