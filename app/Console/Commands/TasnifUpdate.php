@@ -34,7 +34,7 @@ class TasnifUpdate extends Command
 
 
 
-        $lastDate = Carbon::yesterday()->startOfDay();
+        $lastDate = Carbon::today()->startOfDay();
         //$endOfToday = Carbon::yesterday()->endOfDay();
         //$this->info($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
         //$date = Carbon::now();
