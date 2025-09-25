@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->integer('label')->default(0);
             $table->integer('total')->default(0);
+            $table->date('dash_date')->nullable();
 
             $table->timestamps();
             $table->foreign('gtin_id')->references('id')->on('gtins');

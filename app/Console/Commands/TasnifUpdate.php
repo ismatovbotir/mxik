@@ -32,26 +32,20 @@ class TasnifUpdate extends Command
         $size = 10;
 
 
-        $last = Product::latest()->first();
 
-        if ($last == null) {
-            $this->telegramSend('No products found. Exiting command.');
-            return;
-        }
-        $lastDate = $last['updated_at'];
+
+        $lastDate = Carbon::yesterday()->startOfDay();
+        //$endOfToday = Carbon::yesterday()->endOfDay();
         //$this->info($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
         //$date = Carbon::now();
         $startOfToday = $lastDate->timestamp * 1000;
-        $endOfToday   = $lastDate->addDays(2)->timestamp * 1000;
+        $endOfToday   = $lastDate->endOfDay()->timestamp * 1000;
 
         $this->telegramSend(Carbon::createFromTimestamp($startOfToday / 1000) . ' - ' . Carbon::createFromTimestamp($endOfToday / 1000));
         //dd('done');
-        $totalRecords = $this->checkUpdates(1, 0, $startOfToday, $endOfToday);
+        $totalRecords = $this->checkUpdates(100, 0, $startOfToday, $endOfToday);
         //dd($totalRecords);
-        if ($totalRecords['status'] == 'error') {
-            $this->telegramSend($totalRecords['message']);
-            return;
-        }
+
         $totalRecord = $totalRecords['data']['recordTotal'];
         //$this->telegramSend($totalRecord);
         //$this->info('Total records to process: ' . ceil($totalRecord  / $size));
@@ -64,8 +58,12 @@ class TasnifUpdate extends Command
             }
             $data = $newRecords['data']['data'];
             foreach ($data as $item) {
-                $this->createItem($item);
+                //$this->createItem($item);
+                if ($item['status'] == '3') {
+                    $this->telegramSend($item['mxik'] . ' - ' . $item['name']);
+                }
             }
+            //sleep(1);
         }
 
 
