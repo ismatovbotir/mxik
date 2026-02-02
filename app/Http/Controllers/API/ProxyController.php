@@ -5,42 +5,55 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProxyController extends Controller
 {
 
-    private string $baseUrl = "https://tasnif.soliq.uz";
+    private string $baseUrl = "https://tasnif.soliq.uz/api/cl-api/integration-mxik/get/all/history/time-json";
 
     public function handle(Request $request, string $path = '')
     {
-        $method = $request->method();
+        $url = $this->baseUrl;
+        $method = "GET";
+        $headers = $this->prepareHeaders($request);
 
-        // собираем финальный URL
-        $url = rtrim($this->baseUrl, '/') . '/' . ltrim($path, '/');
+        return new StreamedResponse(function () use ($url, $method, $headers, $request) {
+            $ch = curl_init($url);
 
-        $response = Http::withHeaders(
-            $this->filterHeaders($request->headers->all())
-        )
-            ->send($method, $url, [
-                'body'    => $request->getContent(),
-                'timeout' => 30,
+            curl_setopt_array($ch, [
+                CURLOPT_CUSTOMREQUEST => $method,
+                CURLOPT_HTTPHEADER    => $headers,
+                CURLOPT_POSTFIELDS    => $request->getContent(),
+                CURLOPT_RETURNTRANSFER => false, // 🔥 STREAM
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_TIMEOUT        => 0,
+                CURLOPT_WRITEFUNCTION  => function ($ch, $data) {
+                    echo $data;        // 👉 сразу клиенту
+                    flush();
+                    return strlen($data);
+                },
             ]);
 
-        return response(
-            $response->body(),
-            $response->status()
-        )->withHeaders($response->headers());
+            curl_exec($ch);
+            curl_close($ch);
+        }, 200, [
+            'Content-Type' => 'application/json',
+            'Transfer-Encoding' => 'chunked',
+        ]);
     }
 
-    private function filterHeaders(array $headers): array
+    private function prepareHeaders(Request $request): array
     {
-        unset(
-            $headers['host'],
-            $headers['content-length']
-        );
+        $headers = [];
 
-        return collect($headers)
-            ->map(fn($v) => $v[0])
-            ->toArray();
+        foreach ($request->headers->all() as $key => $values) {
+            if (in_array(strtolower($key), ['host', 'content-length'])) {
+                continue;
+            }
+            $headers[] = ucfirst($key) . ': ' . $values[0];
+        }
+
+        return $headers;
     }
 }
