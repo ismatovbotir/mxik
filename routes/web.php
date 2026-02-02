@@ -8,4 +8,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/', MainController::class);
 Route::resource('/product', ProductController::class);
-Route::resource('/group',GroupController::class);
+Route::resource('/group', GroupController::class);

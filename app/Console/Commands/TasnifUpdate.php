@@ -33,13 +33,17 @@ class TasnifUpdate extends Command
 
 
 
+        $lastItem = Product::latest('created_at')->first();
 
-        $lastDate = Carbon::today()->startOfDay();
+        //$lastDate = Carbon::today()->startOfDay();
+        $lastDate = $lastItem->created_at;
+        //$lastDate = Carbon::createFromFormat('d.m.Y', '22.09.2025');
         //$endOfToday = Carbon::yesterday()->endOfDay();
         //$this->info($lastDate . ' : ' . $last['id'] . ' : ' . $last['name']);
         //$date = Carbon::now();
         $startOfToday = $lastDate->timestamp * 1000;
-        $endOfToday   = $lastDate->endOfDay()->timestamp * 1000;
+        //$endOfToday = $lastDate->endOfDay()->timestamp * 1000;
+        $endOfToday   = Carbon::now()->timestamp * 1000;
 
         $this->telegramSend(Carbon::createFromTimestamp($startOfToday / 1000) . ' - ' . Carbon::createFromTimestamp($endOfToday / 1000));
         //dd('done');
@@ -47,10 +51,10 @@ class TasnifUpdate extends Command
         //dd($totalRecords);
 
         $totalRecord = $totalRecords['data']['recordTotal'];
-        //$this->telegramSend($totalRecord);
+        $this->telegramSend($totalRecord);
         //$this->info('Total records to process: ' . ceil($totalRecord  / $size));
         for ($i = 0; $i < ceil($totalRecord / $size); $i++) {
-            //$this->info('Processing page ' . ($i) . ' of ' . floor($totalRecord / $size));
+            $this->info('Processing page ' . ($i) . ' of ' . floor($totalRecord / $size));
             $newRecords = $this->checkUpdates($size, $i, $startOfToday, $endOfToday);
             if ($newRecords['status'] == 'error') {
                 $this->telegramSend($newRecords['message']);
@@ -59,9 +63,9 @@ class TasnifUpdate extends Command
             $data = $newRecords['data']['data'];
             foreach ($data as $item) {
                 //$this->createItem($item);
-                if ($item['status'] == '3') {
-                    $this->telegramSend($item['mxik'] . ' - ' . $item['name']);
-                }
+                //if ($item['mxik'] == '03004402017001001') {
+                $this->telegramSend($item['status'] . ' - ' . $item['mxik'] . ' - ' . $item['name']);
+                //}
             }
             //sleep(1);
         }
