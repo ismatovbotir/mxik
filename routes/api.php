@@ -8,5 +8,4 @@ use App\Http\Controllers\API\ProxyController;
 
 Route::resource('/product', ProductController::class);
 
-Route::get('/proxy/json', [ProxyController::class, 'handle'])
-  ->where('path', '.*');
+Route::get('/proxy/json', [ProxyController::class, 'handle']);
