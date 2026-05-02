@@ -16,10 +16,17 @@ class DashboardService
             $total    = ClassCode::count();
             $withGtin = ClassCode::whereNotNull('gtin')->count();
 
-            $byYear = ClassCode::selectRaw("YEAR(created_at) as year, count(*) as total")
+            $byYear = ClassCode::selectRaw("strftime('%Y', created_at) as year, count(*) as total")
                 ->groupBy('year')
                 ->orderBy('year')
                 ->pluck('total', 'year')
+                ->toArray();
+
+            $byMonth = ClassCode::selectRaw("strftime('%Y-%m', created_at) as month, count(*) as total")
+                ->where('created_at', '>=', now()->subMonths(11)->startOfMonth())
+                ->groupBy('month')
+                ->orderBy('month')
+                ->pluck('total', 'month')
                 ->toArray();
 
             $byStatus = ClassCode::selectRaw('status, count(*) as total')
@@ -52,15 +59,45 @@ class DashboardService
                 ->map(fn ($r) => (array) $r)
                 ->toArray();
 
+            $topGroups = DB::table('class_codes as cc')
+                ->leftJoin('class_groups as cg', 'cc.class_group_id', '=', 'cg.id')
+                ->selectRaw("
+                    COALESCE(cg.name_ru, 'Без группы') as name,
+                    COUNT(*) as total,
+                    SUM(CASE WHEN cc.gtin IS NOT NULL THEN 1 ELSE 0 END) as with_gtin
+                ")
+                ->groupBy('cg.id', 'cg.name_ru')
+                ->orderByDesc('total')
+                ->limit(10)
+                ->get()
+                ->map(fn ($r) => (array) $r)
+                ->toArray();
+
+            $byStatusRaw = ClassCode::selectRaw('status, count(*) as total')
+                ->groupBy('status')
+                ->pluck('total', 'status')
+                ->toArray();
+
             return [
-                'total'        => $total,
-                'with_gtin'    => $withGtin,
-                'without_gtin' => $total - $withGtin,
-                'added_today'  => ClassCode::whereDate('created_at', today())->count(),
-                'added_week'   => ClassCode::where('created_at', '>=', now()->startOfWeek())->count(),
-                'by_year'      => $byYear,
-                'by_status'    => $byStatus,
-                'by_country'   => $byCountry,
+                'total'             => $total,
+                'with_gtin'         => $withGtin,
+                'without_gtin'      => $total - $withGtin,
+                'added_today'       => ClassCode::whereDate('created_at', today())->count(),
+                'added_week'        => ClassCode::where('created_at', '>=', now()->startOfWeek())->count(),
+                'added_month'       => ClassCode::where('created_at', '>=', now()->startOfMonth())->count(),
+                'active_count'      => (int) ($byStatusRaw['1'] ?? 0),
+                'changed_count'     => (int) ($byStatusRaw['2'] ?? 0),
+                'by_year'           => $byYear,
+                'by_month'          => $byMonth,
+                'by_status'         => $byStatus,
+                'by_country'        => $byCountry,
+                'top_groups'        => $topGroups,
+                'flags'             => [
+                    'label'           => ClassCode::where('label', true)->count(),
+                    'label_for_check' => ClassCode::where('labelForCheck', true)->count(),
+                    'use_package'     => ClassCode::where('usePackage', true)->count(),
+                    'cash_sale'       => ClassCode::where('cashSale', true)->count(),
+                ],
                 'total_groups'      => ClassGroup::count(),
                 'last_sync'         => Setting::get('last_sync_at'),
                 'last_created_item' => ClassCode::orderByDesc('created_at')->first(['id', 'name', 'status', 'gtin', 'created_at'])?->toArray(),

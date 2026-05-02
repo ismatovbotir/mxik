@@ -103,11 +103,25 @@ All responses JSON. 404 → `{"message": "Not found."}`.
 
 ## Dashboard (/)
 
-- Stat cards: Total, With GTIN, Without GTIN, Added Today, Added This Week
-- Bar chart: records by year (Chart.js)
+- KPI cards: Total, GTIN Coverage %, Active, Changed, Added This Month, Countries
+- Charts: Monthly growth trend (12m line), Status doughnut, Top groups horizontal bar, Year-over-year bar
+- Compliance flags: label, labelForCheck, usePackage, cashSale — counts + % of total
 - Country table: top 10 by GTIN prefix (LEFT JOIN `gtin_prefixes`, 3→2→1 digit fallback)
-- Status distribution, last sync time, last created/updated item
+- Last added / last updated item cards with product image (see below)
+- GTIN/code live search in header — calls `/api/class-codes?search=` with 300ms debounce
 - Stats: `Cache::rememberForever('dashboard_stats', ...)` — cleared after each sync
+
+## Product Images
+
+Every `class_codes` record has a product image hosted on tasnif.soliq.uz:
+
+```
+https://tasnif.soliq.uz/api/cls-api/integration-mxik/references/get/file/{id}_1.png
+```
+
+- `{id}` = the 17-digit MXIK code (e.g. `03105001009000000`)
+- Always use `onerror` fallback — many codes have no image (404)
+- Pattern applies anywhere a `class_code` is displayed: dashboard cards, detail pages, search results, etc.
 
 ## Dev Commands
 
