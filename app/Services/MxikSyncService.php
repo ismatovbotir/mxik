@@ -29,8 +29,10 @@ class MxikSyncService
         $lastSync  = Setting::get('last_sync_at');
 
         $startTimestamp = $lastSync ? (int) $lastSync : now()->subDays(6)->timestamp;
+
         $startDate = $startTimestamp * 1000;
-        $endDate   = ($startTimestamp + 6 * 86400) * 1000;
+        $endDateSeconds = min($startTimestamp + 6 * 86400, now()->timestamp);
+        $endDate = $endDateSeconds * 1000;
 
         $stats = [
             'groups'      => $groupsStats,
