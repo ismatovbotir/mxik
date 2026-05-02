@@ -146,6 +146,10 @@ class MxikSyncService
             foreach ($items as $item) {
                 $item = array_diff_key((array) $item, array_flip($drop));
 
+                if (isset($item['createdAt']) && $item['createdAt'] < 0) {
+                    $item['createdAt'] = 0;
+                }
+
                 if (! empty($item['packages'])) {
                     $item['packages'] = array_map(
                         fn($pkg) => array_diff_key((array) $pkg, array_flip($drop)),

@@ -16,7 +16,7 @@ class DashboardService
             $total    = ClassCode::count();
             $withGtin = ClassCode::whereNotNull('gtin')->count();
 
-            $byYear = ClassCode::selectRaw("strftime('%Y', created_at) as year, count(*) as total")
+            $byYear = ClassCode::selectRaw("YEAR(created_at) as year, count(*) as total")
                 ->groupBy('year')
                 ->orderBy('year')
                 ->pluck('total', 'year')
