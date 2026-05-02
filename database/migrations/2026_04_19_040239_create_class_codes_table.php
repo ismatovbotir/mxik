@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('status')->default('3');
             $table->unsignedInteger('class_group_id')->nullable();
             $table->foreign('class_group_id')->references('id')->on('class_groups')->nullOnDelete();
-            $table->string('name');
+            $table->text('name');
             $table->string('gtin')->nullable()->index();
             $table->boolean('label')->default(false);
             $table->boolean('labelForCheck')->default(false);
