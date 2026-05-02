@@ -1,0 +1,22 @@
+{
+  "mxik":"03304020001027003",
+  "mxikNameUz":"Қўл учун антисептик: ARN Antiseptic, Антисептик қўл учун, ПЭТ флакон 50 мл.",
+  "mxikNameRu":"Антисептик для рук: ARN Antiseptic, Антисептик для рук ПЭТ флакон 50 мл.",
+  "mxikNameLat":"Qo’l uchun antiseptik: ARN Antiseptic, Antiseptik qo’l uchun, PET flakon 50 ml.",
+  "labelForCheck":0,
+  "internationalCode":"4780083550024",
+  "usePackage":1,
+  "createdAt":1651225629000,
+  "updateAt":1670398298000,
+  "label":0,
+  "packages":
+    [
+      {"code":1309398,
+      "mxikCode":"03304020001027003",
+      "nameUz":"дона (флакон) 50 миллилитр",
+      "packageType":"1",
+      "nameRu":"шт (флакон) 50 миллилитр",
+      "nameLat":"dona (flakon) 50 millilitr"
+      }
+    ]
+}
