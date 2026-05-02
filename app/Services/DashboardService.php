@@ -34,9 +34,9 @@ class DashboardService
                 ->pluck('total', 'status')
                 ->mapWithKeys(function ($count, $status) {
                     $label = match ($status) {
-                        '1'     => 'Active',
-                        '2'     => 'Changed',
-                        default => 'Default',
+                        '1'     => 'Faol',
+                        '2'     => "O'zgartirilgan",
+                        default => 'Standart',
                     };
                     return [$label => $count];
                 })
@@ -62,11 +62,11 @@ class DashboardService
             $topGroups = DB::table('class_codes as cc')
                 ->leftJoin('class_groups as cg', 'cc.class_group_id', '=', 'cg.id')
                 ->selectRaw("
-                    COALESCE(cg.name_ru, 'Без группы') as name,
+                    COALESCE(cg.name_uz, 'Guruhsiz') as name,
                     COUNT(*) as total,
                     SUM(CASE WHEN cc.gtin IS NOT NULL THEN 1 ELSE 0 END) as with_gtin
                 ")
-                ->groupBy('cg.id', 'cg.name_ru')
+                ->groupBy('cg.id', 'cg.name_uz')
                 ->orderByDesc('total')
                 ->limit(10)
                 ->get()
@@ -100,8 +100,8 @@ class DashboardService
                 ],
                 'total_groups'      => ClassGroup::count(),
                 'last_sync'         => Setting::get('last_sync_at'),
-                'last_created_item' => ClassCode::orderByDesc('created_at')->first(['id', 'name', 'status', 'gtin', 'created_at'])?->toArray(),
-                'last_updated_item' => ClassCode::orderByDesc('updated_at')->first(['id', 'name', 'status', 'gtin', 'updated_at'])?->toArray(),
+                'last_created_item' => ClassCode::orderByDesc('created_at')->first(['id', 'name', 'status', 'gtin', 'label', 'labelForCheck', 'usePackage', 'cashSale', 'created_at'])?->toArray(),
+                'last_updated_item' => ClassCode::orderByDesc('updated_at')->first(['id', 'name', 'status', 'gtin', 'label', 'labelForCheck', 'usePackage', 'cashSale', 'updated_at'])?->toArray(),
             ];
         });
     }

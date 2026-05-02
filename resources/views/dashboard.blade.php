@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MXIK Analytics</title>
+    <title>MXIK Tahlil</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -45,7 +45,7 @@
                 <span class="text-white text-xs font-black">M</span>
             </div>
             <span class="text-white font-bold text-base tracking-tight">MXIK</span>
-            <span class="text-indigo-300 text-sm hidden sm:block">Analytics</span>
+            <span class="text-indigo-300 text-sm hidden sm:block">Tahlil</span>
         </div>
 
         {{-- GTIN / Code Search --}}
@@ -54,7 +54,7 @@
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-300 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
                 </svg>
-                <input id="gtin-input" type="text" placeholder="Search by GTIN, MXIK code or name…"
+                <input id="gtin-input" type="text" placeholder="GTIN, MXIK kodi yoki nomi bo'yicha qidiring…"
                     class="w-full bg-white/10 text-white placeholder-indigo-300 text-sm pl-9 pr-4 py-1.5 rounded-lg border border-white/20 focus:outline-none focus:border-white/60 focus:bg-white/20 transition-all"
                     autocomplete="off">
                 <div id="search-spinner" class="absolute right-3 top-1/2 -translate-y-1/2 hidden">
@@ -77,7 +77,7 @@
                     {{ \Carbon\Carbon::createFromTimestamp($stats['last_sync'])->diffForHumans() }}
                 </div>
             @else
-                <span class="hidden md:block text-xs text-amber-300 font-medium">Never synced</span>
+                <span class="hidden md:block text-xs text-amber-300 font-medium">Sinxronizatsiya qilinmagan</span>
             @endif
             <a href="/api/class-codes" target="_blank"
                class="text-xs font-semibold text-white/80 hover:text-white border border-white/25 hover:border-white/60 px-3 py-1.5 rounded-lg transition-colors">
@@ -106,9 +106,9 @@
 
         {{-- Total --}}
         <div class="card p-5 col-span-1">
-            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Total Codes</p>
+            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Jami kodlar</p>
             <p class="text-2xl font-extrabold text-gray-900 tabular-nums">{{ number_format($total) }}</p>
-            <p class="text-xs text-gray-400 mt-1">{{ number_format($stats['total_groups']) }} groups</p>
+            <p class="text-xs text-gray-400 mt-1">{{ number_format($stats['total_groups']) }} guruh</p>
             <div class="kpi-bar bg-indigo-500 mt-3 w-full"></div>
         </div>
 
@@ -122,17 +122,17 @@
                 <text x="18" y="22" text-anchor="middle" font-size="8" font-weight="800" fill="#111827">{{ $gtinPct }}%</text>
             </svg>
             <div class="min-w-0">
-                <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">GTIN Coverage</p>
+                <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">GTIN qamrovi</p>
                 <p class="text-base font-bold text-gray-900 mt-0.5">{{ number_format($withGtin) }}</p>
-                <p class="text-xs text-gray-400">have barcodes</p>
+                <p class="text-xs text-gray-400">shtrix kodga ega</p>
             </div>
         </div>
 
         {{-- Active --}}
         <div class="card p-5">
-            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Active Codes</p>
+            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Faol kodlar</p>
             <p class="text-2xl font-extrabold text-emerald-600 tabular-nums">{{ number_format($stats['active_count']) }}</p>
-            <p class="text-xs text-gray-400 mt-1">{{ $activePct }}% of catalog</p>
+            <p class="text-xs text-gray-400 mt-1">{{ $activePct }}% katalogdan</p>
             <div class="mt-3 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <div class="h-full bg-emerald-500 rounded-full" style="width:{{ $activePct }}%"></div>
             </div>
@@ -140,9 +140,9 @@
 
         {{-- Changed --}}
         <div class="card p-5">
-            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Changed</p>
+            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">O'zgartirilgan</p>
             <p class="text-2xl font-extrabold text-amber-500 tabular-nums">{{ number_format($stats['changed_count']) }}</p>
-            <p class="text-xs text-gray-400 mt-1">{{ $changedPct }}% superseded</p>
+            <p class="text-xs text-gray-400 mt-1">{{ $changedPct }}% almashtirilgan</p>
             <div class="mt-3 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <div class="h-full bg-amber-400 rounded-full" style="width:{{ $changedPct }}%"></div>
             </div>
@@ -150,20 +150,20 @@
 
         {{-- Added This Month --}}
         <div class="card p-5">
-            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">This Month</p>
+            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Bu oy</p>
             <p class="text-2xl font-extrabold text-sky-600 tabular-nums">{{ number_format($stats['added_month']) }}</p>
             <div class="flex items-center gap-3 mt-1">
-                <p class="text-xs text-gray-400">week: <span class="font-semibold text-gray-600">{{ number_format($stats['added_week']) }}</span></p>
-                <p class="text-xs text-gray-400">today: <span class="font-semibold text-gray-600">{{ number_format($stats['added_today']) }}</span></p>
+                <p class="text-xs text-gray-400">hafta: <span class="font-semibold text-gray-600">{{ number_format($stats['added_week']) }}</span></p>
+                <p class="text-xs text-gray-400">bugun: <span class="font-semibold text-gray-600">{{ number_format($stats['added_today']) }}</span></p>
             </div>
             <div class="kpi-bar bg-sky-400 mt-3 w-full"></div>
         </div>
 
         {{-- Countries --}}
         <div class="card p-5">
-            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Countries</p>
+            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">Davlatlar</p>
             <p class="text-2xl font-extrabold text-violet-600 tabular-nums">{{ $countryCnt }}</p>
-            <p class="text-xs text-gray-400 mt-1">from GTIN prefixes</p>
+            <p class="text-xs text-gray-400 mt-1">GTIN prefikslaridan</p>
             <div class="kpi-bar bg-violet-400 mt-3 w-full"></div>
         </div>
     </div>
@@ -175,13 +175,13 @@
         <div class="card p-6 lg:col-span-3">
             <div class="flex items-center justify-between mb-5">
                 <div>
-                    <h2 class="text-sm font-bold text-gray-800">Growth Trend</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">New codes added — last 12 months</p>
+                    <h2 class="text-sm font-bold text-gray-800">O'sish tendensiyasi</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Qo'shilgan yangi kodlar — so'nggi 12 oy</p>
                 </div>
                 @php $monthTotal = array_sum($monthValues); @endphp
                 <div class="text-right">
                     <p class="text-lg font-extrabold text-brand-600 tabular-nums">{{ number_format($monthTotal) }}</p>
-                    <p class="text-xs text-gray-400">in period</p>
+                    <p class="text-xs text-gray-400">davrda</p>
                 </div>
             </div>
             @if(!empty($monthValues))
@@ -189,22 +189,22 @@
                     <canvas id="monthlyChart"></canvas>
                 </div>
             @else
-                <div class="h-52 flex items-center justify-center text-gray-400 text-sm">No data yet</div>
+                <div class="h-52 flex items-center justify-center text-gray-400 text-sm">Ma'lumot yo'q</div>
             @endif
         </div>
 
         {{-- Status Distribution --}}
         <div class="card p-6 lg:col-span-2">
             <div class="mb-4">
-                <h2 class="text-sm font-bold text-gray-800">Status Distribution</h2>
-                <p class="text-xs text-gray-400 mt-0.5">Catalog health by code status</p>
+                <h2 class="text-sm font-bold text-gray-800">Holat taqsimoti</h2>
+                <p class="text-xs text-gray-400 mt-0.5">Kod holati bo'yicha katalog</p>
             </div>
             @if(!empty($stats['by_status']))
                 <div class="relative h-44 flex items-center justify-center">
                     <canvas id="statusChart"></canvas>
                 </div>
                 @php
-                    $statusMeta = ['Active' => ['bg-emerald-500','text-emerald-700','bg-emerald-50'], 'Changed' => ['bg-amber-500','text-amber-700','bg-amber-50'], 'Default' => ['bg-slate-400','text-slate-600','bg-slate-50']];
+                    $statusMeta = ['Faol' => ['bg-emerald-500','text-emerald-700','bg-emerald-50'], "O'zgartirilgan" => ['bg-amber-500','text-amber-700','bg-amber-50'], 'Standart' => ['bg-slate-400','text-slate-600','bg-slate-50']];
                     $statusTotal = array_sum($stats['by_status']);
                 @endphp
                 <div class="mt-3 space-y-1.5">
@@ -222,7 +222,7 @@
                     @endforeach
                 </div>
             @else
-                <div class="h-52 flex items-center justify-center text-gray-400 text-sm">No data yet</div>
+                <div class="h-52 flex items-center justify-center text-gray-400 text-sm">Ma'lumot yo'q</div>
             @endif
         </div>
     </div>
@@ -234,12 +234,12 @@
         <div class="card p-6 lg:col-span-3">
             <div class="flex items-center justify-between mb-5">
                 <div>
-                    <h2 class="text-sm font-bold text-gray-800">Top Product Groups</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">Codes per group — GTIN coverage overlay</p>
+                    <h2 class="text-sm font-bold text-gray-800">Top mahsulot guruhlari</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Guruh bo'yicha kodlar — GTIN qamrovi</p>
                 </div>
                 <div class="flex items-center gap-3 text-xs text-gray-500">
-                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-200 border border-indigo-400 inline-block"></span>Total</span>
-                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block"></span>With GTIN</span>
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-200 border border-indigo-400 inline-block"></span>Jami</span>
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block"></span>GTIN bilan</span>
                 </div>
             </div>
             @if(!empty($stats['top_groups']))
@@ -247,23 +247,23 @@
                     <canvas id="groupsChart"></canvas>
                 </div>
             @else
-                <div class="h-64 flex items-center justify-center text-gray-400 text-sm">No group data yet</div>
+                <div class="h-64 flex items-center justify-center text-gray-400 text-sm">Guruh ma'lumotlari yo'q</div>
             @endif
         </div>
 
         {{-- Compliance Flags --}}
         <div class="card p-6 lg:col-span-2">
             <div class="mb-5">
-                <h2 class="text-sm font-bold text-gray-800">Regulatory Compliance</h2>
-                <p class="text-xs text-gray-400 mt-0.5">Boolean flag breakdown — % of total</p>
+                <h2 class="text-sm font-bold text-gray-800">Tartibga muvofiqlik</h2>
+                <p class="text-xs text-gray-400 mt-0.5">Majburiy bayroqlar — jami foizi</p>
             </div>
             @if($total > 0)
                 @php
                     $flags = [
-                        ['label' => 'Requires Labeling',   'key' => 'label',           'color' => 'bg-rose-500',   'light' => 'text-rose-700',  'icon' => '🏷️'],
-                        ['label' => 'Label for Check',      'key' => 'label_for_check', 'color' => 'bg-orange-500', 'light' => 'text-orange-700','icon' => '🔍'],
-                        ['label' => 'Package Required',     'key' => 'use_package',     'color' => 'bg-sky-500',    'light' => 'text-sky-700',   'icon' => '📦'],
-                        ['label' => 'Cash Sale Allowed',    'key' => 'cash_sale',       'color' => 'bg-emerald-500','light' => 'text-emerald-700','icon' => '💵'],
+                        ['label' => 'Yorliq (DataMatrix)',  'key' => 'label',           'color' => 'bg-rose-500',   'light' => 'text-rose-700',  'icon' => 'dm'],
+                        ['label' => 'Tekshirish yorlig\'i', 'key' => 'label_for_check', 'color' => 'bg-orange-500', 'light' => 'text-orange-700','icon' => 'dm'],
+                        ['label' => 'Qadoqlash talab',      'key' => 'use_package',     'color' => 'bg-sky-500',    'light' => 'text-sky-700',   'icon' => '📦'],
+                        ['label' => 'Naqd sotish mumkin',   'key' => 'cash_sale',       'color' => 'bg-emerald-500','light' => 'text-emerald-700','icon' => '💵'],
                     ];
                 @endphp
                 <div class="space-y-4">
@@ -275,7 +275,21 @@
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
                             <span class="flex items-center gap-1.5 text-xs font-medium text-gray-700">
-                                <span>{{ $f['icon'] }}</span>{{ $f['label'] }}
+                                @if($f['icon'] === 'dm')
+                                    {{-- DataMatrix icon --}}
+                                    <svg viewBox="0 0 10 10" class="w-4 h-4 shrink-0" fill="currentColor" title="DataMatrix">
+                                        <rect x="0" y="0" width="10" height="1"/><rect x="0" y="0" width="1" height="10"/>
+                                        <rect x="1" y="9" width="9" height="1"/><rect x="9" y="1" width="1" height="8"/>
+                                        <rect x="2" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/>
+                                        <rect x="6" y="2" width="2" height="1"/><rect x="2" y="4" width="2" height="1"/>
+                                        <rect x="6" y="4" width="1" height="1"/><rect x="2" y="6" width="1" height="2"/>
+                                        <rect x="4" y="6" width="2" height="1"/><rect x="4" y="7" width="1" height="1"/>
+                                        <rect x="7" y="6" width="1" height="2"/>
+                                    </svg>
+                                @else
+                                    <span>{{ $f['icon'] }}</span>
+                                @endif
+                                {{ $f['label'] }}
                             </span>
                             <span class="text-xs font-bold {{ $f['light'] }}">{{ $pct }}%</span>
                         </div>
@@ -292,14 +306,15 @@
                 {{-- Summary insight --}}
                 <div class="mt-5 p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <p class="text-xs text-gray-500 leading-relaxed">
+                        Katalogning
                         <span class="font-semibold text-gray-700">{{ round(($stats['flags']['label'] ?? 0) / max(1, $total) * 100, 1) }}%</span>
-                        of catalog requires physical labeling. Cash sales permitted for
+                        jismoniy yorliqlashni (DataMatrix) talab qiladi.
                         <span class="font-semibold text-gray-700">{{ round(($stats['flags']['cash_sale'] ?? 0) / max(1, $total) * 100, 1) }}%</span>
-                        of codes.
+                        kodlar uchun naqd sotish mumkin.
                     </p>
                 </div>
             @else
-                <div class="text-gray-400 text-sm">No data yet</div>
+                <div class="text-gray-400 text-sm">Ma'lumot yo'q</div>
             @endif
         </div>
     </div>
@@ -311,10 +326,10 @@
         <div class="card p-6 lg:col-span-2">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h2 class="text-sm font-bold text-gray-800">Origin Countries</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">By GTIN prefix — top {{ count($stats['by_country']) }}</p>
+                    <h2 class="text-sm font-bold text-gray-800">Kelib chiqish davlatlari</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">GTIN prefiksi bo'yicha — top {{ count($stats['by_country']) }}</p>
                 </div>
-                <span class="tag bg-violet-100 text-violet-700">{{ $countryCnt }} total</span>
+                <span class="tag bg-violet-100 text-violet-700">{{ $countryCnt }} ta</span>
             </div>
             @if(!empty($stats['by_country']))
                 @php $maxC = $stats['by_country'][0]['total'] ?? 1; $gtinCountTotal = array_sum(array_column($stats['by_country'], 'total')); @endphp
@@ -339,7 +354,7 @@
                     @endforeach
                 </div>
             @else
-                <div class="h-40 flex items-center justify-center text-gray-400 text-sm">No GTIN data yet</div>
+                <div class="h-40 flex items-center justify-center text-gray-400 text-sm">GTIN ma'lumotlari yo'q</div>
             @endif
         </div>
 
@@ -347,13 +362,13 @@
         <div class="card p-6 lg:col-span-3">
             <div class="flex items-center justify-between mb-5">
                 <div>
-                    <h2 class="text-sm font-bold text-gray-800">Year-over-Year History</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">Cumulative additions per calendar year</p>
+                    <h2 class="text-sm font-bold text-gray-800">Yillik tarix</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Har yil qo'shilgan kodlar soni</p>
                 </div>
                 @if(!empty($yearLabels))
                     @php $peakYear = $yearLabels[array_search(max($yearValues), $yearValues)] ?? '—'; @endphp
                     <div class="text-right">
-                        <p class="text-xs text-gray-400">Peak year</p>
+                        <p class="text-xs text-gray-400">Eng faol yil</p>
                         <p class="text-sm font-bold text-brand-600">{{ $peakYear }}</p>
                     </div>
                 @endif
@@ -371,11 +386,11 @@
     {{-- ═══════════════════ ROW 5: Last Items ═══════════════════ --}}
     @php
         $itemCards = [
-            ['label' => 'Last Added',   'item' => $stats['last_created_item'], 'dateKey' => 'created_at', 'accent' => 'bg-sky-500',    'tag' => 'bg-sky-50 text-sky-700'],
-            ['label' => 'Last Updated', 'item' => $stats['last_updated_item'], 'dateKey' => 'updated_at', 'accent' => 'bg-violet-500', 'tag' => 'bg-violet-50 text-violet-700'],
+            ['label' => 'Oxirgi qo\'shilgan', 'item' => $stats['last_created_item'], 'dateKey' => 'created_at', 'accent' => 'bg-sky-500',    'tag' => 'bg-sky-50 text-sky-700'],
+            ['label' => 'Oxirgi yangilangan', 'item' => $stats['last_updated_item'], 'dateKey' => 'updated_at', 'accent' => 'bg-violet-500', 'tag' => 'bg-violet-50 text-violet-700'],
         ];
         $sColors = ['1' => ['bg-emerald-500','bg-emerald-50 text-emerald-700'], '2' => ['bg-amber-500','bg-amber-50 text-amber-700'], '3' => ['bg-slate-400','bg-slate-50 text-slate-600']];
-        $sLabels = ['1' => 'Active', '2' => 'Changed', '3' => 'Default'];
+        $sLabels = ['1' => 'Faol', '2' => "O'zgartirilgan", '3' => 'Standart'];
     @endphp
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         @foreach($itemCards as $card)
@@ -418,6 +433,41 @@
                                 <code class="text-xs font-mono text-gray-600 bg-gray-50 px-1.5 py-0.5 rounded">{{ $item['gtin'] }}</code>
                             </div>
                         @endif
+                        {{-- Compliance badges --}}
+                        @php
+                            $badges = [];
+                            if (!empty($item['label']))        $badges[] = ['dm',  'Yorliq (DataMatrix)', 'bg-rose-50 text-rose-700 border border-rose-200'];
+                            if (!empty($item['labelForCheck'])) $badges[] = ['dm', 'Tekshirish yorlig\'i', 'bg-orange-50 text-orange-700 border border-orange-200'];
+                            if (!empty($item['usePackage']))   $badges[] = ['pkg', 'Qadoqlash', 'bg-sky-50 text-sky-700 border border-sky-200'];
+                            if (!empty($item['cashSale']))     $badges[] = ['cash', 'Naqd sotish', 'bg-emerald-50 text-emerald-700 border border-emerald-200'];
+                        @endphp
+                        @if(!empty($badges))
+                        <div class="flex flex-wrap gap-1 pt-0.5">
+                            @foreach($badges as $b)
+                            <span class="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded {{ $b[2] }}">
+                                @if($b[0] === 'dm')
+                                    <svg viewBox="0 0 10 10" class="w-3 h-3 shrink-0" fill="currentColor">
+                                        <rect x="0" y="0" width="10" height="1"/><rect x="0" y="0" width="1" height="10"/>
+                                        <rect x="1" y="9" width="9" height="1"/><rect x="9" y="1" width="1" height="8"/>
+                                        <rect x="2" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/>
+                                        <rect x="6" y="2" width="2" height="1"/><rect x="2" y="4" width="2" height="1"/>
+                                        <rect x="6" y="4" width="1" height="1"/><rect x="2" y="6" width="1" height="2"/>
+                                        <rect x="4" y="6" width="2" height="1"/><rect x="7" y="6" width="1" height="2"/>
+                                    </svg>
+                                @elseif($b[0] === 'pkg')
+                                    <svg viewBox="0 0 16 16" class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M2 5l6-3 6 3v6l-6 3-6-3V5z"/><path d="M8 2v14M2 5l6 3 6-3"/>
+                                    </svg>
+                                @elseif($b[0] === 'cash')
+                                    <svg viewBox="0 0 16 16" class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <rect x="1" y="4" width="14" height="8" rx="1"/><circle cx="8" cy="8" r="2"/><path d="M4 8h.01M12 8h.01"/>
+                                    </svg>
+                                @endif
+                                {{ $b[1] }}
+                            </span>
+                            @endforeach
+                        </div>
+                        @endif
                         <p class="text-xs text-gray-400 pt-1.5 border-t border-gray-50">
                             {{ \Carbon\Carbon::parse($item[$card['dateKey']])->format('d M Y, H:i') }}
                             <span class="ml-1.5 text-gray-300">({{ \Carbon\Carbon::parse($item[$card['dateKey']])->diffForHumans() }})</span>
@@ -425,7 +475,7 @@
                     </div>
                 </div>
             @else
-                <div class="text-gray-400 text-sm">No data yet</div>
+                <div class="text-gray-400 text-sm">Ma'lumot yo'q</div>
             @endif
         </div>
         @endforeach
@@ -433,11 +483,11 @@
 
     {{-- Footer meta --}}
     <div class="text-center text-xs text-gray-400 pb-2">
-        MXIK Classifier · tasnif.soliq.uz ·
+        MXIK Klassifikator · tasnif.soliq.uz ·
         @if($stats['last_sync'])
-            Last sync {{ \Carbon\Carbon::createFromTimestamp($stats['last_sync'])->format('d M Y, H:i') }}
+            Oxirgi sinxronizatsiya {{ \Carbon\Carbon::createFromTimestamp($stats['last_sync'])->format('d M Y, H:i') }}
         @else
-            Not yet synced
+            Hali sinxronizatsiya qilinmagan
         @endif
     </div>
 
@@ -486,7 +536,7 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
                     bodyColor: '#e0e7ff',
                     padding: 10,
                     cornerRadius: 8,
-                    callbacks: { label: c => '  ' + c.parsed.y.toLocaleString() + ' codes' }
+                    callbacks: { label: c => '  ' + c.parsed.y.toLocaleString() + ' ta kod' }
                 }
             },
             scales: {
@@ -551,7 +601,7 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
             labels: @json($topGroupLabels),
             datasets: [
                 {
-                    label: 'Total',
+                    label: 'Jami',
                     data: @json($topGroupTotals),
                     backgroundColor: 'rgba(99,102,241,0.15)',
                     borderColor: 'rgba(99,102,241,0.5)',
@@ -560,7 +610,7 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
                     borderSkipped: false,
                 },
                 {
-                    label: 'With GTIN',
+                    label: 'GTIN bilan',
                     data: @json($topGroupGtins),
                     backgroundColor: 'rgba(16,185,129,0.7)',
                     borderColor: 'rgba(5,150,105,1)',
@@ -634,7 +684,7 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
                     bodyColor: '#e0e7ff',
                     padding: 10,
                     cornerRadius: 8,
-                    callbacks: { label: c => '  ' + c.parsed.y.toLocaleString() + ' codes' }
+                    callbacks: { label: c => '  ' + c.parsed.y.toLocaleString() + ' ta kod' }
                 }
             },
             scales: {
@@ -663,7 +713,7 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
     const spinner  = document.getElementById('search-spinner');
     let timer;
 
-    const statusLabel = { '1': 'Active', '2': 'Changed', '3': 'Default' };
+    const statusLabel = { '1': 'Faol', '2': "O'zgartirilgan", '3': 'Standart' };
     const statusClass = {
         '1': 'bg-emerald-50 text-emerald-700',
         '2': 'bg-amber-50 text-amber-700',
@@ -672,7 +722,7 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
 
     function renderResults(data) {
         if (!data.data || data.data.length === 0) {
-            content.innerHTML = `<div class="px-4 py-6 text-sm text-gray-400 text-center">No results found</div>`;
+            content.innerHTML = `<div class="px-4 py-6 text-sm text-gray-400 text-center">Natija topilmadi</div>`;
             return;
         }
         const items = data.data.map(item => {
@@ -700,7 +750,7 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
         const total = meta.total ?? data.data.length;
         const header = total > data.data.length
             ? `<div class="px-4 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100 bg-gray-50">
-                  Showing ${data.data.length} of ${total.toLocaleString()} results
+                  ${total.toLocaleString()} ta natijadan ${data.data.length} tasi ko'rsatilmoqda
                </div>`
             : '';
         content.innerHTML = header + items;
@@ -710,14 +760,14 @@ const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000
         if (!q) { dropdown.classList.add('hidden'); return; }
         spinner.classList.remove('hidden');
         dropdown.classList.remove('hidden');
-        content.innerHTML = `<div class="px-4 py-5 text-sm text-gray-400 text-center">Searching…</div>`;
+        content.innerHTML = `<div class="px-4 py-5 text-sm text-gray-400 text-center">Qidirilmoqda…</div>`;
 
         fetch(`/api/class-codes?search=${encodeURIComponent(q)}&per_page=8`)
             .then(r => r.json())
             .then(data => { spinner.classList.add('hidden'); renderResults(data); })
             .catch(() => {
                 spinner.classList.add('hidden');
-                content.innerHTML = `<div class="px-4 py-5 text-sm text-red-400 text-center">Search failed — check API</div>`;
+                content.innerHTML = `<div class="px-4 py-5 text-sm text-red-400 text-center">Qidirish xatosi — API ni tekshiring</div>`;
             });
     }
 
