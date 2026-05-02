@@ -16,13 +16,13 @@ class DashboardService
             $total    = ClassCode::count();
             $withGtin = ClassCode::whereNotNull('gtin')->count();
 
-            $byYear = ClassCode::selectRaw("strftime('%Y', created_at) as year, count(*) as total")
+            $byYear = ClassCode::selectRaw("YEAR(created_at) as year, count(*) as total")
                 ->groupBy('year')
                 ->orderBy('year')
                 ->pluck('total', 'year')
                 ->toArray();
 
-            $byMonth = ClassCode::selectRaw("strftime('%Y-%m', created_at) as month, count(*) as total")
+            $byMonth = ClassCode::selectRaw("DATE_FORMAT(created_at, '%Y-%m') as month, count(*) as total")
                 ->where('created_at', '>=', now()->subMonths(11)->startOfMonth())
                 ->groupBy('month')
                 ->orderBy('month')
